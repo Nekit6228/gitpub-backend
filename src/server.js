@@ -52,9 +52,9 @@ export const startServer = () => {
   app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 
-app.use(notFoundHandler);
+ app.use(notFoundHandler);
 
-app.use(errorHandler);
+ app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`port ${PORT}`);

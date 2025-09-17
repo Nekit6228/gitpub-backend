@@ -5,4 +5,3 @@ extends:
   - recommended
 rules:
   no-unused-components: error
-
