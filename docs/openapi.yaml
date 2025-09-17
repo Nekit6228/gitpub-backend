@@ -1,23 +1,33 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: Contacts App
+  title: Leleka App
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: This is a documentation of App
 tags:
   - name: Contacts
-    description:
+    description: Contact operations.
   - name: Auth
     description: Auth operations.
 servers:
-  - url:
+  - url: https://gitpub-backend-qq3d.onrender.com
     description: Production server
   - url: http://localhost:3000
     description: Local development server
 paths:
+  /auth/register:
+    post:
+      $ref: ../swagger/paths/auth/register.yaml
 
+  /auth/login:
+    post:
+      $ref: ../swagger/paths/auth/login.yaml
+
+  /auth/logout:
+    post:
+      $ref: ../swagger/paths/auth/logout.yaml
 
 components:
   securitySchemes:
