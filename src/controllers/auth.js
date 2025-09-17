@@ -1,4 +1,4 @@
-import { loginUser, logoutUser, refreshUsersSession, registerUser, requestResetToken } from "../services/auth.js";
+import {  logoutUser, refreshUsersSession, requestResetToken } from "../services/auth.js";
 import { resetPassword } from '../services/auth.js';
 
 const setupSession = (res,session) => {
@@ -6,15 +6,13 @@ const setupSession = (res,session) => {
 };
 
 export const registerUserController = async (req,res)=>{
-    const user = await registerUser(req.body);
+
 
 };
 
 
 export const loginUserController = async (req, res) => {
-  const session = await loginUser(req.body);
 
-   setupSession(res, session);
 };
 
 

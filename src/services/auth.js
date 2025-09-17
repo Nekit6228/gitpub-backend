@@ -15,9 +15,6 @@ export const logoutUser = async (sessionId) => {
 };
 
 
-const createSession = () => {
-
-};
 
 export const refreshUsersSession = async ({sessionId,refreshToken}) => {
 
