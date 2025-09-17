@@ -9,7 +9,8 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constants/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
-
+import usersRouter from "./routers/user.js";
+import authRouter from "./routers/auth.js";
 
 
 
@@ -46,7 +47,10 @@ export const startServer = () => {
   });
 
 
-app.use(router);
+  app.use(router);
+
+  app.use("/api/auth", authRouter);
+app.use("/api/users", usersRouter);
 
 app.use(notFoundHandler);
 
@@ -56,5 +60,5 @@ app.use(errorHandler);
     console.log(`port ${PORT}`);
   });
 
-
 };
+
