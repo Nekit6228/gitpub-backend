@@ -112,7 +112,7 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 
   /api/users/avatar:
-    patch:
+    post:
       tags:
         - Users
       summary: Update avatar

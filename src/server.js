@@ -9,10 +9,6 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constants/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
-import usersRouter from "./routers/user.js";
-import authRouter from "./routers/auth.js";
-
-
 
 dotenv.config();
 
@@ -24,11 +20,11 @@ export const startServer = () => {
   app.use('/uploads', express.static(UPLOAD_DIR));
   app.use('/api-docs', swaggerDocs());
 
- app.use(
-  express.json({
-    type: ['application/json', 'application/vnd.api+json'],
-  }),
-);
+  app.use(
+    express.json({
+      type: ['application/json', 'application/vnd.api+json'],
+    }),
+  );
   app.use(cors());
   app.use(cookieParser());
 
@@ -46,19 +42,14 @@ export const startServer = () => {
     });
   });
 
-
+  // Підключаємо всі роутери через один кореневий
   app.use(router);
 
-  app.use("/api/auth", authRouter);
-app.use("/api/users", usersRouter);
+  app.use(notFoundHandler);
 
-app.use(notFoundHandler);
-
-app.use(errorHandler);
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`port ${PORT}`);
   });
-
 };
-

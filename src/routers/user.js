@@ -5,7 +5,7 @@ import multer from "multer";
 import { getMe, updateAvatar, updateUser } from "../controllers/user.js";
 
 const router = Router();
-const upload = multer({ dest: "uploads/" }); 
+const upload = multer({ dest: "uploads/" });
 
 router.use(authenticate);
 
@@ -13,7 +13,7 @@ router.use(authenticate);
 router.get("/me", ctrlWrapper(getMe));
 
 // PATCH /api/users/avatar — оновлення аватару
-router.patch("/avatar", upload.single("avatar"), ctrlWrapper(updateAvatar));
+router.post("/avatar", upload.single("avatar"), ctrlWrapper(updateAvatar));
 
 // PATCH /api/users — оновлення даних + refreshUserSession
 router.patch("/", ctrlWrapper(updateUser));
