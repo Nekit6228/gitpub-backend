@@ -42,7 +42,6 @@ export const startServer = () => {
     });
   });
 
-  // Підключаємо всі роутери через один кореневий
   app.use(router);
 
   app.use(notFoundHandler);
