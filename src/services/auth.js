@@ -19,6 +19,8 @@ export const registerUser = async (payload) =>{
 };
 
 
+
+
 export const loginUser = async (payload) => {
     const user = await UserCollections.findOne({email: payload.email});
 
