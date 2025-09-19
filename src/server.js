@@ -32,6 +32,9 @@ export const startServer = () => {
 
 
 
+app.use('/api',router);
+
+
 
 
   app.use("/api/tasks", tasksRouter);
