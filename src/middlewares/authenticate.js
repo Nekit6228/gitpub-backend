@@ -1,10 +1,10 @@
-/* import createHttpError from "http-errors";
+import createHttpError from "http-errors";
 import { SessionsCollection } from "../db/models/session.js";
 import { UserCollections } from "../db/models/user.js";
 
- */
+
 export const authenticate = async (req, res, next) => {
-/*   const authHeader = req.get('Authorization');
+  const authHeader = req.get('Authorization');
 
   if (!authHeader) {
     return next(createHttpError(401, 'Please provide Authorization header'));
@@ -35,5 +35,5 @@ export const authenticate = async (req, res, next) => {
   }
 
   req.user = user;
-  next(); */
+  next(); 
 };

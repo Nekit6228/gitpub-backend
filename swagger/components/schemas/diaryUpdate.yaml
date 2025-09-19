@@ -1,0 +1,19 @@
+DiaryUpdate:
+  type: object
+  properties:
+    title:
+      type: string
+      example: 'Doctors visit update'
+    description:
+      type: string
+      example: 'Had an ultrasound today, the baby is growing well and everything looks perfect!'
+    date:
+      type: string
+      format: date
+      example: '2025-09-20'
+    emotions:
+      type: array
+      items:
+        type: string
+        description: Emotion ObjectId
+        example: '6895bd86a5c677999ed2ae17'

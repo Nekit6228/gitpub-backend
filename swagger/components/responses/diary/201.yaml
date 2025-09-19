@@ -1,0 +1,35 @@
+description: Successfully creates diary entry!
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 201
+        message:
+          type: string
+          example: Successfully creates diary entry!
+        data:
+          $ref: '../../schemas/diary.yaml#/Diary'
+    examples:
+      created:
+        value:
+          status: 201
+          message: Successfully creates diary entry!
+          data:
+            _id: 68cd804b54ecfa2d01635545
+            title: Moments with you
+            description: You are still so small, yet my whole life already revolves around you.
+            date: 2025-09-20T00:00:00.000Z
+            emotions:
+              - 6895bd86a5c677999ed2ae17
+              - 6895bd86a5c677999ed2ae30
+            userId: 68cc2d4187e54afd6273db2
+            id: '68cd804b54ecfa2d01635545'
+            createdAt: 2025-09-19T16:09:47.277Z
+            updatedAt: 2025-09-19T16:09:47.277Z

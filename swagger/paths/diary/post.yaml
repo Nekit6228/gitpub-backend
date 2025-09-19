@@ -1,0 +1,42 @@
+tags:
+  - Diaries
+summary: Create new diary entry
+operationId: createDiary
+description: Creates a new diary entry for the authenticated user.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - title
+          - description
+          - date
+          - emotions
+        properties:
+          title:
+            type: string
+            example: 'First baby kick'
+          description:
+            type: string
+            example: 'Today I felt the gentle kicks - it as incredible!'
+          date:
+            type: string
+            format: date
+            example: '2025-09-20'
+          emotions:
+            type: array
+            items:
+              type: string
+              description: Emotion ObjectId
+              example: '6895bd86a5c677999ed2ae2c'
+responses:
+  '201':
+    $ref: '../../components/responses/diary/201.yaml'
+  '400':
+    $ref: '../../components/responses/400.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'
+  '500':
+    $ref: '../../components/responses/500.yaml'
