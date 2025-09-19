@@ -6,16 +6,21 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: This is a documentation of App
+
 tags:
   - name: Contacts
     description: Contact operations.
   - name: Auth
     description: Auth operations.
+  - name: Diaries
+    description: Diary operations.
+
 servers:
   - url: https://gitpub-backend-qq3d.onrender.com
     description: Production server
   - url: http://localhost:3000
     description: Local development server
+
 paths:
   /auth/register:
     post:
@@ -29,8 +34,15 @@ paths:
     post:
       $ref: ../swagger/paths/auth/logout.yaml
 
+  /diaries:
+    get:
+      $ref: ../swagger/paths/diary/get.yaml
+
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+  schemas:
+    Diary:
+      $ref: ../swagger/components/schemas/diary.yaml#/Diary

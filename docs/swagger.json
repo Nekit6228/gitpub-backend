@@ -27,6 +27,10 @@
     {
       "name": "Auth",
       "description": "Auth operations."
+    },
+    {
+      "name": "Diaries",
+      "description": "Diary operations."
     }
   ],
   "paths": {
@@ -206,6 +210,55 @@
           }
         }
       }
+    },
+    "/diaries": {
+      "get": {
+        "tags": [
+          "Diaries"
+        ],
+        "summary": "Get user diaries",
+        "operationId": "getUserDiaries",
+        "description": "Returns all diaries for the authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved diaries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully get diaries!"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Diary"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -213,6 +266,65 @@
       "bearerAuth": {
         "type": "http",
         "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "Diary": {
+        "type": "object",
+        "required": [
+          "_id",
+          "title",
+          "description",
+          "emotions",
+          "userId"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Diary id",
+            "example": "68cc61d870990cf24572f399"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of notes in your diary",
+            "example": "First hi!"
+          },
+          "description": {
+            "type": "string",
+            "description": "Write what's on your mind",
+            "example": "It happened! First touchdown."
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "When user created note in diary",
+            "example": "2025-01-28"
+          },
+          "emotions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "6895bd86a5c677999ed2ae18"
+            ]
+          },
+          "userId": {
+            "type": "string",
+            "description": "Owner user id",
+            "example": "68cc619370990cf24572f395"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
       }
     },
     "responses": {
@@ -271,6 +383,30 @@
                       "example": "Access token expired"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Invalid request payload",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Validation failed phoneNumber, contactType, name is required"
                 }
               }
             }
