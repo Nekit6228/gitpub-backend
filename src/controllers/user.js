@@ -1,18 +1,23 @@
-
 import { SessionsCollection } from "../db/models/session.js";
 import { generateAccessToken } from "../utils/token.js";
+import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js"; // Додаємо Cloudinary утиліту
 
 // Отримати поточного користувача
 export const getMe = async (req, res) => {
   res.json(req.user);
 };
 
-// Оновити аватар
+// Оновити аватар через Cloudinary
 export const updateAvatar = async (req, res) => {
   if (!req.file) return res.status(400).json({ error: "Avatar file required" });
-  req.user.avatar = req.file.path;
+
+  // Завантаження у Cloudinary
+  const avatarUrl = await saveFileToCloudinary(req.file);
+
+  req.user.avatar = avatarUrl;
   await req.user.save();
-  res.json({ avatar: req.user.avatar });
+
+  res.json({ avatar: avatarUrl });
 };
 
 // Оновити дані та refresh session
