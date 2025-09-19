@@ -6,8 +6,7 @@ import diaryRouter from './diary.js';
 const router = Router();
 
 
-router.use('api/auth', authRouter);
+router.use('/auth', authRouter);
 router.use('/diaries', diaryRouter);
-
 
 export default router;
