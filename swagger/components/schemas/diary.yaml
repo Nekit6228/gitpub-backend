@@ -5,34 +5,55 @@ Diary:
     _id:
       type: string
       description: Diary id
-      example: 68cc61d870990cf24572f399
+      example: '68cc61d870990cf24572f399'
+
     title:
       type: string
       description: Title of notes in your diary
-      example: First hi!
+      example: 'First hi!'
+
     description:
       type: string
       description: Write what's on your mind
-      example: It happened! First touchdown.
+      example: 'It happened! First touchdown.'
+
     date:
       type: string
       format: date
       description: When user created note in diary
-      example: 2025-01-28
+      example: '2025-01-28'
+
     emotions:
       type: array
       items:
-        type: string
-      example: ['6895bd86a5c677999ed2ae18']
+        type: object
+        properties:
+          _id:
+            type: string
+            description: Emotion ID
+            example: '6895bd86a5c677999ed2ae18'
+          title:
+            type: string
+            description: Emotion title
+            example: 'Гармонія'
     userId:
       type: string
-      description: Owner user id
-      example: 68cc619370990cf24572f395
+      description: Owner of the diary entry
+      properties:
+        _id:
+          type: string
+          example: '68cc619370990cf24572f395'
+        name:
+          type: string
+          example: 'Vikky'
     createdAt:
       type: string
       format: date-time
       readOnly: true
+      example: '2025-09-19T14:02:51.012Z'
     updatedAt:
       type: string
       format: date-time
       readOnly: true
+      example: '2025-09-19T14:02:51.012Z'
+     

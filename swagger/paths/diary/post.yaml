@@ -17,10 +17,10 @@ requestBody:
         properties:
           title:
             type: string
-            example: 'MMA lessons are not for weak people'
+            example: 'First baby kick'
           description:
             type: string
-            example: "Someone stated that I'm fat. What a dickhead? Long story short I knocked him out! Sweet dreams"
+            example: 'Today I felt the gentle kicks - it as incredible!'
           date:
             type: string
             format: date

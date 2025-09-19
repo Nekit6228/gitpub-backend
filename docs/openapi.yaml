@@ -40,6 +40,11 @@ paths:
     post: 
       $ref: ../swagger/paths/diary/post.yaml
 
+  /diaries/{diaryId}: 
+    patch: 
+      $ref: ../swagger/paths/diary/{id}/patch.yaml 
+    delete: 
+      $ref: ../swagger/paths/diary/{id}/delete.yaml   
 components:
   securitySchemes:
     bearerAuth:
@@ -48,3 +53,5 @@ components:
   schemas:
     Diary:
       $ref: ../swagger/components/schemas/diary.yaml#/Diary
+    DiaryUpdate:
+      $ref: ../swagger/components/schemas/diaryUpdate.yaml#/DiaryUpdate

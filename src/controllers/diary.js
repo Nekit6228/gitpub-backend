@@ -1,4 +1,8 @@
-import { getUserDiaries, createDiaryService } from '../services/diary.js';
+import { getUserDiaries, 
+         createDiaryService,
+         updateDiaryService,
+         deleteDiaryService
+} from '../services/diary.js';
 
 export const getUserDiaryController = async(req, res, next) => {
     try {
@@ -29,3 +33,51 @@ export const createDiaryController = async(req, res, next) => {
         next(err)
     }
 };
+
+export const updateDiaryController = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { _id: userId } = req.user; 
+      const updatedDiary = await updateDiaryService(id, userId, req.body);
+  
+      if (!updatedDiary) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Diary not found',
+          data: null,
+        });
+      }
+  
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully updated diary!',
+        data: updatedDiary,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  export const deleteDiaryController = async(req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { _id: userId } = req.user; 
+      const deletedDiary = await deleteDiaryService(id, userId);
+  
+      if (!deletedDiary) {
+        return res.status(404).json({
+          status: 404,
+          message: 'Diary not found',
+          data: null,
+        });
+      }
+  
+      res.status(200).json({
+        status: 200,
+        message: 'Successfully deleted diary entry!',
+        data: deletedDiary,
+      });
+    } catch (err) {
+      next(err);
+    }
+  };
