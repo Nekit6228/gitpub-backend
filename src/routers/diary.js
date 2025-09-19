@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { getUserDiaryController } from '../controllers/diary.js';
+import { getUserDiaryController, createDiaryController } from '../controllers/diary.js';
+import { createDiarySchema } from '../validation/diary.js';
+import { validateBody } from '../middlewares/validateBody.js'
 
 const router = Router();
 
@@ -11,4 +13,10 @@ router.get('/',
            ctrlWrapper(getUserDiaryController)
 );
 
-export default router;
+router.post('/',
+            authenticate,
+            validateBody(createDiarySchema),
+            ctrlWrapper(createDiaryController)
+);
+
+export default router; 

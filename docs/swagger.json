@@ -66,6 +66,7 @@
                   },
                   "password": {
                     "type": "string",
+                    "minLength": 8,
                     "example": "StrongPass123!"
                   }
                 }
@@ -226,30 +227,68 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved diaries",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
+            "$ref": "#/components/responses/200"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Diaries"
+        ],
+        "summary": "Create new diary entry",
+        "operationId": "createDiary",
+        "description": "Creates a new diary entry for the authenticated user.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "description",
+                  "date",
+                  "emotions"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "MMA lessons are not for weak people"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Someone stated that I'm fat. What a dickhead? Long story short I knocked him out! Sweet dreams"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-09-20"
+                  },
+                  "emotions": {
+                    "type": "array",
+                    "items": {
                       "type": "string",
-                      "example": "Successfully get diaries!"
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Diary"
-                      }
+                      "description": "Emotion ObjectId",
+                      "example": "6895bd86a5c677999ed2ae2c"
                     }
                   }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/201"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -328,6 +367,113 @@
       }
     },
     "responses": {
+      "200": {
+        "description": "Successfully retrieved diaries!",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully creates diary entry!"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/Diary"
+                }
+              }
+            }
+          },
+          "example": {
+            "success": {
+              "value": {
+                "status": 200,
+                "message": "Successfully get diaries!",
+                "data": {
+                  "_id": "68cd5f5e5470921c87d71748",
+                  "title": "MMA lesson are not for weak people",
+                  "description": "Someone stated that I'm fat. What a dickhead? Long story short I knocked him out! Sweet dreams.",
+                  "data": "2025-09-20T00:00:00.000Z",
+                  "emotions": [
+                    {
+                      "_id": "6895bd86a5c677999ed2ae2c",
+                      "title": "Гармонія"
+                    },
+                    {
+                      "_id": "6895bd86a5c677999ed2ae27",
+                      "title": "Врівноваженість"
+                    }
+                  ],
+                  "userId": {
+                    "_id": "68cc2d6e187e54afd6273db6",
+                    "name": "Vikky",
+                    "email": "test1@gmail.com"
+                  },
+                  "createdAt": "2025-09-19T13:49:18.965Z",
+                  "updatedAt": "2025-09-19T13:49:18.965Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "201": {
+        "description": "Successfully creates diary entry!",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully creates diary entry!"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/Diary"
+                }
+              }
+            }
+          },
+          "examples": {
+            "created": {
+              "value": {
+                "status": 201,
+                "message": "Successfully create a diary entry!",
+                "data": {
+                  "title": "Why do I want to eat such a strange things?",
+                  "description": "Never ever wanted to eat ice-cream and fish",
+                  "date": "2025-09-20T00:00:00.000Z",
+                  "emotions": [
+                    "6895bd86a5c677999ed2ae29",
+                    "6895bd86a5c677999ed2ae1d"
+                  ],
+                  "userId": "68cc2cd4187e54afd6273db2",
+                  "_id": "68cd680b4caa35c38b9d918a",
+                  "createdAt": "2025-09-19T14:26:19.168Z",
+                  "updatedAt": "2025-09-19T14:26:19.168Z"
+                }
+              }
+            }
+          }
+        }
+      },
       "400": {
         "description": "Bad Request",
         "content": {

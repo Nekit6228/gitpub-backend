@@ -1,0 +1,31 @@
+description: Successfully creates diary entry!
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: integer
+          example: 201
+        message:
+          type: string
+          example: 'Successfully creates diary entry!'
+        data:
+          $ref: '../../schemas/diary.yaml#/Diary'
+  examples:
+    created:
+      value:
+        status: 201
+        message: 'Successfully create a diary entry!'
+        data:
+          title: 'Why do I want to eat such a strange things?'
+          description: 'Never ever wanted to eat ice-cream and fish' 
+          date: '2025-09-20T00:00:00.000Z'
+          emotions: ["6895bd86a5c677999ed2ae29","6895bd86a5c677999ed2ae1d"]
+          userId: '68cc2cd4187e54afd6273db2'
+          _id: '68cd680b4caa35c38b9d918a'
+          createdAt: '2025-09-19T14:26:19.168Z'
+          updatedAt: '2025-09-19T14:26:19.168Z'

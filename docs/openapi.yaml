@@ -37,6 +37,8 @@ paths:
   /diaries:
     get:
       $ref: ../swagger/paths/diary/get.yaml
+    post: 
+      $ref: ../swagger/paths/diary/post.yaml
 
 components:
   securitySchemes:
