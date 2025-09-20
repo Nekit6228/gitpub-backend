@@ -69,9 +69,14 @@ export const refreshUserSessionController = async (req,res) => {
       sessionId: req.cookies.sessionId,
       refreshToken: req.cookies.refreshToken,
     });
-
     setupSession(res,session);
-
+    res.json({
+        status: 200,
+        massage:'Successfully refreshed a session!',
+        data:{
+          accessToken: session.accessToken,
+        }
+    });
 };
 
 export const requestResetEmailController = async (req,res)=> {
