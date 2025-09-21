@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { authenticate } from '../middlewares/authenticate.js';
-import { getUserDiaryController, 
+import { getUserDiaryController,
          createDiaryController,
          updateDiaryController,
          deleteDiaryController
 } from '../controllers/diary.js';
-import { createDiarySchema } from '../validation/diary.js';
+import { createDiarySchema, updateDiarySchema } from '../validation/diary.js';
 import { validateBody } from '../middlewares/validateBody.js';
 
 const router = Router();
@@ -25,7 +25,7 @@ router.post('/',
 
 router.patch('/:id',
              authenticate,
-             validateBody(createDiarySchema),
+             validateBody(updateDiarySchema),
              ctrlWrapper(updateDiaryController)
 
 );
@@ -35,4 +35,4 @@ router.delete('/:id',
                ctrlWrapper(deleteDiaryController)
 );
 
-export default router; 
+export default router;
