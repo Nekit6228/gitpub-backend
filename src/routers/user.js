@@ -13,6 +13,6 @@ router.use(authenticate);
 
 router.get("/me", ctrlWrapper(getMe));
 router.post("/avatar", upload.single("avatar"), ctrlWrapper(updateAvatar));
-router.patch("/", validateBody(updateUserSchema), ctrlWrapper(updateUser);
+router.patch("/", validateBody(updateUserSchema), ctrlWrapper(updateUser));
 
 export default router;
