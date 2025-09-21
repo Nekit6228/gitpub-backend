@@ -1,17 +1,15 @@
 tags:
-  - Auth
-summary: Refresh user session
+  - Users
+summary: Get current user
+security:
+  - bearerAuth: []
 responses:
   '200':
-    description: New access token
+    description: Current user info
     content:
       application/json:
         schema:
-          type: object
-          properties:
-            accessToken:
-              type: string
-              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+          $ref: ../../components/schemas/user.yaml#/User
   '401':
     description: Unauthorized
     content:

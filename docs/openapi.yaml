@@ -12,6 +12,8 @@ tags:
     description: Auth operations
   - name: Diaries
     description: Diary operations.
+  - name: Users
+    description: Users operations
 
 servers:
   - url: https://gitpub-backend-qq3d.onrender.com
@@ -22,13 +24,16 @@ servers:
 paths:
   /auth/register:
     post:
-      $ref: '../swagger/paths/auth/register.yaml'
+      $ref: ../swagger/paths/auth/register.yaml
   /auth/login:
     post:
-      $ref: '../swagger/paths/auth/login.yaml'
+      $ref: ../swagger/paths/auth/login.yaml
   /auth/logout:
     post:
-      $ref: '../swagger/paths/auth/logout.yaml'
+      $ref: ../swagger/paths/auth/logout.yaml
+  /auth/refresh:
+    post:
+      $ref: ../swagger/paths/auth/refresh.yaml
 
   /diaries:
     get:
@@ -42,13 +47,25 @@ paths:
     delete:
       $ref: ../swagger/paths/diary/{id}/delete.yaml
 
+  /users:
+    patch:
+      $ref: ../swagger/paths/user/patchUser.yaml
+  /users/me:
+    get:
+      $ref: ../swagger/paths/user/getUser.yaml
+  /users/avatar:
+    post:
+      $ref: ../swagger/paths/user/patchAvatar.yaml
+
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
   schemas:
+    User:
+      $ref: ../swagger/components/schemas/user.yaml
     Diary:
-      $ref: ../swagger/components/schemas/diary.yaml#/Diary
+      $ref: ../swagger/components/schemas/diary.yaml
     DiaryUpdate:
-      $ref: ../swagger/components/schemas/diaryUpdate.yaml#/DiaryUpdate
+      $ref: ../swagger/components/schemas/diaryUpdate.yaml
