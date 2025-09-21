@@ -20,19 +20,26 @@ export const updateAvatar = async (req, res) => {
   res.json({ avatar: avatarUrl });
 };
 
-// Оновити дані та refresh session
+
 export const updateUser = async (req, res) => {
   if (req.body.name) req.user.name = req.body.name;
   if (req.body.email) req.user.email = req.body.email;
+  if (req.body.gender) req.user.gender = req.body.gender;
+  if (req.body.dueDate) req.user.dueDate = new Date(req.body.dueDate);
+
   await req.user.save();
 
-  // Оновити accessToken у session
   const session = await SessionsCollection.findOne({ userId: req.user._id });
   if (!session) return res.status(401).json({ error: "Session not found" });
 
   session.accessToken = generateAccessToken(req.user);
-  session.accessTokenValidUntil = new Date(Date.now() + 60 * 60 * 1000); // +1 год
+  session.accessTokenValidUntil = new Date(Date.now() + 60 * 60 * 1000);
   await session.save();
 
-  res.json({ user: req.user, accessToken: session.accessToken });
+  res.json({
+    status: 200,
+    message: "User updated successfully",
+    user: req.user,
+    accessToken: session.accessToken
+  });
 };

@@ -1,11 +1,4 @@
-import {
-  loginUser,
-  logoutUser,
-  refreshUsersSession,
-  registerUser,
-  requestResetToken,
-  resetPassword
-} from "../services/auth.js";
+import { loginUser, logoutUser, refreshUsersSession, registerUser } from "../services/auth.js";
 import { ONE_DAY } from "../constants/index.js";
 
 // Хелпер для встановлення сесійних cookie
@@ -73,27 +66,5 @@ export const refreshUserSessionController = async (req, res) => {
     data: {
       accessToken: session.accessToken,
     },
-  });
-};
-
-// Відправка email з reset-токеном
-export const requestResetEmailController = async (req, res) => {
-  const { resetToken } = await requestResetToken(req.body.email);
-
-  // Тут можна додати email-розсилку
-  res.status(200).json({
-    status: 200,
-    message: 'Reset token generated',
-    data: { resetToken }
-  });
-};
-
-// Скидання паролю
-export const resetPasswordController = async (req, res) => {
-  await resetPassword(req.body);
-
-  res.status(200).json({
-    status: 200,
-    message: 'Password was reset successfully'
   });
 };
