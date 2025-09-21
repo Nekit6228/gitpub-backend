@@ -1,5 +1,4 @@
-import {  loginUser, logoutUser, refreshUsersSession, registerUser, requestResetToken } from "../services/auth.js";
-import { resetPassword } from '../services/auth.js';
+import {  loginUser, logoutUser, refreshUsersSession, registerUser } from "../services/auth.js";
 import { ONE_DAY } from "../constants/index.js";
 
 const setupSession = (res,session) => {
@@ -79,14 +78,3 @@ export const refreshUserSessionController = async (req,res) => {
     });
 };
 
-export const requestResetEmailController = async (req,res)=> {
-await requestResetToken(req.body.email);
-
-};
-
-
-export const resetPasswordController = async (req,res) => {
-  await resetPassword(req.body);
-
-
-};

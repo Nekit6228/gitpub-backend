@@ -17,7 +17,6 @@ const userSchema = new Schema(
         /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
         "Email is invalid",
       ],
-      lowercase: true,
       trim: true,
     },
     password: {
@@ -25,7 +24,6 @@ const userSchema = new Schema(
       required: [true, "Password is required"],
       minlength: [8, "Password must be at least 8 characters"],
       maxlength: [128, "Password cannot exceed 128 characters"],
-      select: false,
     },
     avatar: {
       type: String,
@@ -34,8 +32,8 @@ const userSchema = new Schema(
     },
     gender: {
       type: String,
-      enum: ["male", "female", "other"],
-      default: "other",
+      enum: ["хлопчик", "дівчинка", "Оберіть стать"],
+      default: "Оберіть стать",
       required: true,
     },
     dueDate: {
@@ -52,4 +50,4 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
-export const UserCollection = model("users", userSchema);
+export const UserCollections = model("users", userSchema);
