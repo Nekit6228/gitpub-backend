@@ -42,6 +42,28 @@ paths:
     delete:
       $ref: ../swagger/paths/diary/{id}/delete.yaml
 
+      # ======================== WEEKS ========================
+
+  /api/weeks/current:
+    get:
+      $ref: ../swagger/paths/weeks/current.yaml
+
+  /api/weeks/current/public:
+    get:
+      $ref: ../swagger/paths/weeks/currentPublic.yaml
+
+  /api/weeks/{weekNumber}:
+    get:
+      $ref: ../swagger/paths/weeks/week.yaml
+
+  /api/weeks/{weekNumber}/mom:
+    get:
+      $ref: ../swagger/paths/weeks/{weekNumber}/mom.yaml
+
+  /api/weeks/{weekNumber}/baby:
+    get:
+      $ref: ../swagger/paths/weeks/{weekNumber}/baby.yaml
+
 components:
   securitySchemes:
     bearerAuth:

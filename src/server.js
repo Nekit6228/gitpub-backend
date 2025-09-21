@@ -4,7 +4,7 @@ import cors from 'cors';
 import { getEnvVar } from './utils/getEnvVar.js';
 import router from './routers/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
-import { notFoundHandler  } from './middlewares/notFoundHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constants/index.js';
@@ -42,7 +42,7 @@ export const startServer = () => {
     });
   });
 
-  app.use('/api',router);
+  app.use('/api', router);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

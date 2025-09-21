@@ -1,0 +1,25 @@
+tags:
+  - Weeks
+summary: Отримати поточний тиждень (публічна версія)
+operationId: getCurrentWeekDataPublic
+description: >
+  Повертає дані про поточний тиждень вагітності, включно з інформацією про розвиток дитини та відчуття мами. Публічний ендпоінт.
+security: []
+responses:
+  '200':
+    description: Успішна відповідь
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            week:
+              type: integer
+              example: 5
+            daysToDue:
+              type: integer
+              example: 252
+            pack:
+              $ref: '../../components/schemas/Pack.yaml'
+  '401':
+    $ref: '../../components/responses/401.yaml'

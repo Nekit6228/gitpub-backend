@@ -1,0 +1,9 @@
+type: object
+properties:
+  week:
+    type: integer
+    example: 5
+  baby:
+    $ref: '../schemas/Baby.yaml'
+  mom:
+    $ref: '../schemas/Mom.yaml'
