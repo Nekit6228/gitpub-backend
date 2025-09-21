@@ -15,28 +15,23 @@ export async function getWeekPack(week) {
 
   let baby = doc?.baby ?? null;
   let mom = doc?.mom ?? null;
-  let emotions = doc?.emotions ?? null;
 
   const needsBaby = !baby;
   const needsMom = !mom;
-  const needsEmotions = !emotions;
 
-  if (needsBaby || needsMom || needsEmotions) {
-    const [babyDoc, momDoc, emotionsDoc] = await Promise.all([
+  if (needsBaby || needsMom) {
+    const [babyDoc, momDoc] = await Promise.all([
       needsBaby ? fetchState('baby', num) : Promise.resolve(null),
       needsMom ? fetchState('mom', num) : Promise.resolve(null),
-      needsEmotions ? fetchState('emotions', num) : Promise.resolve(null),
     ]);
 
     if (babyDoc) baby = babyDoc;
     if (momDoc) mom = momDoc;
-    if (emotionsDoc) emotions = emotionsDoc;
   }
 
   return {
     week: num,
     baby,
     mom,
-    emotions,
   };
 }
