@@ -36,9 +36,7 @@
   "paths": {
     "/auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Register user",
         "operationId": "registerUser",
         "description": "Register a new user",
@@ -49,11 +47,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "email",
-                  "password"
-                ],
+                "required": ["name", "email", "password"],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -121,9 +115,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Login user",
         "operationId": "loginUser",
         "description": "Login user with email and password",
@@ -134,10 +126,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -191,9 +180,7 @@
     },
     "/auth/logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Logout user",
         "operationId": "logoutUser",
         "description": "Logout user and clear cookies",
@@ -256,9 +243,7 @@
     },
     "/diaries": {
       "get": {
-        "tags": [
-          "Diaries"
-        ],
+        "tags": ["Diaries"],
         "summary": "Get user diaries",
         "operationId": "getUserDiaries",
         "description": "Returns all diaries for the authenticated user.",
@@ -280,9 +265,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Diaries"
-        ],
+        "tags": ["Diaries"],
         "summary": "Create new diary entry",
         "operationId": "createDiary",
         "description": "Creates a new diary entry for the authenticated user.",
@@ -292,12 +275,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "title",
-                  "description",
-                  "date",
-                  "emotions"
-                ],
+                "required": ["title", "description", "date", "emotions"],
                 "properties": {
                   "title": {
                     "type": "string",
@@ -343,9 +321,7 @@
     },
     "/diaries/{diaryId}": {
       "patch": {
-        "tags": [
-          "Diaries"
-        ],
+        "tags": ["Diaries"],
         "summary": "Update diary entry",
         "operationId": "updateDiary",
         "description": "Update a diary entry for the authenticated user.",
@@ -372,9 +348,7 @@
                 "title": "Updated entry: Doctors visit",
                 "description": "Added the ultrasound results, doctor said everything looks great!",
                 "date": "2025-09-20",
-                "emotions": [
-                  "6895bd86a5c677999ed2ae27"
-                ]
+                "emotions": ["6895bd86a5c677999ed2ae27"]
               }
             }
           }
@@ -432,9 +406,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Diaries"
-        ],
+        "tags": ["Diaries"],
         "summary": "Delete diary",
         "operationId": "deletedDiary",
         "description": "Delete diary for the authenticated user.",
@@ -717,13 +689,7 @@
       },
       "diary_Diary": {
         "type": "object",
-        "required": [
-          "_id",
-          "title",
-          "description",
-          "emotions",
-          "userId"
-        ],
+        "required": ["_id", "title", "description", "emotions", "userId"],
         "properties": {
           "_id": {
             "type": "string",
@@ -1033,11 +999,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
+              "required": ["status", "message", "data"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1092,11 +1054,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
+              "required": ["status", "message", "data"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1142,10 +1100,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1166,11 +1121,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
+              "required": ["status", "message", "data"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1182,9 +1133,7 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
+                  "required": ["message"],
                   "properties": {
                     "message": {
                       "type": "string",
@@ -1203,11 +1152,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
+              "required": ["status", "message", "data"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -1236,10 +1181,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message"],
               "properties": {
                 "status": {
                   "type": "integer",

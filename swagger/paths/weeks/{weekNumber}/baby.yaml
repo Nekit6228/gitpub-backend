@@ -1,0 +1,30 @@
+tags:
+  - Weeks
+summary: Отримати дані про дитину для конкретного тижня
+operationId: getWeekBabyData
+description: >
+  Повертає інформацію про розвиток дитини для певного тижня вагітності.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: weekNumber
+    required: true
+    schema:
+      type: integer
+    description: Номер тижня вагітності
+responses:
+  '200':
+    description: Дані для дитини
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            week:
+              type: integer
+              example: 12
+            baby:
+              $ref: '../../../components/schemas/baby.yaml'
+  '401':
+    $ref: '../../../components/responses/401.yaml'
