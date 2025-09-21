@@ -1,9 +1,7 @@
 import { DiaryCollection } from '../db/models/diary.js';
 
 export const getUserDiaries = async (userId) => {
-   return await DiaryCollection.find( {userId} )
-      .populate('emotions', 'title')
-      .populate('userId', 'name title');
+   return await DiaryCollection.find( {userId} ).lean();
 };
 
 export const createDiaryService = async(payload) => {

@@ -438,7 +438,7 @@
                         "_id": "68cd804b54ecfa2d01635545",
                         "title": "Moments with you",
                         "description": "You are still so small, yet my whole life already revolves around you.",
-                        "date": "2025-09-20T00:00:00.000Z",
+                        "date": "2025-09-20",
                         "emotions": [
                           "6895bd86a5c677999ed2ae17",
                           "6895bd86a5c677999ed2ae30"
@@ -503,39 +503,20 @@
             "type": "string",
             "format": "date",
             "description": "When user created note in diary",
-            "example": "2025-01-28"
+            "example": "2025-09-20"
           },
           "emotions": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "Emotion ID",
-                  "example": "6895bd86a5c677999ed2ae18"
-                },
-                "title": {
-                  "type": "string",
-                  "description": "Emotion title",
-                  "example": "Гармонія"
-                }
-              }
+              "type": "string",
+              "description": "Emotion ID",
+              "example": "6895bd86a5c677999ed2ae18"
             }
           },
           "userId": {
             "type": "string",
             "description": "Owner of the diary entry",
-            "properties": {
-              "_id": {
-                "type": "string",
-                "example": "68cc619370990cf24572f395"
-              },
-              "name": {
-                "type": "string",
-                "example": "Vikky"
-              }
-            }
+            "example": "68cc619370990cf24572f395"
           },
           "createdAt": {
             "type": "string",
@@ -609,27 +590,17 @@
                 "value": {
                   "status": 200,
                   "message": "Successfully retrieved diaries!",
-                  "data": {
+                  "date": {
                     "_id": "68cd5f5e5470921c87d71748",
                     "title": "A piece of my heart",
                     "description": "You are still so small, yet my whole life already revolves around you.",
-                    "data": "2025-09-20T00:00:00.000Z"
+                    "data": "2025-09-20",
+                    "emotions": [
+                      "6895bd86a5c677999ed2ae2c",
+                      "6895bd86a5c677999ed2ae27"
+                    ]
                   },
-                  "emotions": [
-                    {
-                      "_id": "6895bd86a5c677999ed2ae2c",
-                      "title": "Гармонія"
-                    },
-                    {
-                      "_id": "6895bd86a5c677999ed2ae27",
-                      "title": "Врівноваженість"
-                    }
-                  ],
-                  "userId": {
-                    "_id": "68cc2d6e187e54afd6273db6",
-                    "name": "Vikky",
-                    "email": "test1@gmail.com"
-                  },
+                  "userId": "68cc2d6e187e54afd6273db6",
                   "createdAt": "2025-09-19T13:49:18.965Z",
                   "updatedAt": "2025-09-19T13:49:18.965Z"
                 }

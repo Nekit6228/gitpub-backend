@@ -6,7 +6,7 @@ import { getUserDiaries,
 
 export const getUserDiaryController = async(req, res, next) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user._id.toString();
         const diaries = await getUserDiaries(userId);
 
         res.status(200).json({

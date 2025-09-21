@@ -48,7 +48,7 @@ responses:
             _id: "68cc61d870990cf24572f399"
             title: "Updated entry: Doctors visit"
             description: "Added the ultrasound results, doctor said everything looks great!"
-            date: "2025-09-20"
+            date: '2025-09-20'
             emotions:
               - '6895bd86a5c677999ed2ae27'
               - '6895bd86a5c677999ed2ae16'
