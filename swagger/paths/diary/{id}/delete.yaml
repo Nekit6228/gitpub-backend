@@ -42,6 +42,10 @@ responses:
                   - 6895bd86a5c677999ed2ae30
                 userId: 68cc2d4187e54afd6273db2
                 createdAt: 2025-09-19T16:09:47.277Z
-                updatedAt: 2025-09-19T16:09:47.277Z   
+                updatedAt: 2025-09-19T16:09:47.277Z
+  '401':
+    $ref: ../../../components/responses/401.yaml                
   '404':
-    $ref: ../../../components/responses/diary/404.yaml               
+    $ref: ../../../components/responses/diary/404.yaml 
+  '500':
+    $ref: ../../../components/responses/500.yaml                 

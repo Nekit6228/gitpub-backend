@@ -7,7 +7,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "description": "This is a documentation of App"
+    "description": "This is a documentation of Leleka App"
   },
   "servers": [
     {
@@ -22,11 +22,11 @@
   "tags": [
     {
       "name": "Contacts",
-      "description": "Contact operations."
+      "description": "Contact operations"
     },
     {
       "name": "Auth",
-      "description": "Auth operations."
+      "description": "Auth operations"
     },
     {
       "name": "Diaries",
@@ -453,8 +453,14 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }

@@ -10,9 +10,6 @@ import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constants/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
-
-
-
 dotenv.config();
 
 const PORT = Number(getEnvVar('PORT', '3000'));
@@ -23,11 +20,11 @@ export const startServer = () => {
   app.use('/uploads', express.static(UPLOAD_DIR));
   app.use('/api-docs', swaggerDocs());
 
- app.use(
-  express.json({
-    type: ['application/json', 'application/vnd.api+json'],
-  }),
-);
+  app.use(
+    express.json({
+      type: ['application/json', 'application/vnd.api+json'],
+    }),
+  );
   app.use(cors());
   app.use(cookieParser());
 
@@ -45,16 +42,12 @@ export const startServer = () => {
     });
   });
 
+  app.use('/api',router);
 
-app.use('/api',router);
-
- app.use(notFoundHandler);
-
- app.use(errorHandler);
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`port ${PORT}`);
   });
-
-
 };
