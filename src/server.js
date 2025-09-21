@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constants/index.js';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 import tasksRouter from './routers/tasks.js';
-import weeksRouter from './routers/weeks.js';
+
 
 dotenv.config();
 const PORT = Number(getEnvVar('PORT', '3000'));
