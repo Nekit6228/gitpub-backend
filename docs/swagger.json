@@ -7,7 +7,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "description": "This is a documentation of App"
+    "description": "This is a documentation of Leleka App"
   },
   "servers": [
     {
@@ -22,19 +22,17 @@
   "tags": [
     {
       "name": "Auth",
-      "description": "Auth operations."
+      "description": "Auth operations"
     },
     {
-      "name": "Weeks",
-      "description": "Weeks operations"
+      "name": "Diaries",
+      "description": "Diary operations."
     }
   ],
   "paths": {
-    "/api/auth/register": {
+    "/auth/register": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Register user",
         "operationId": "registerUser",
         "description": "Register a new user",
@@ -45,11 +43,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "name",
-                  "email",
-                  "password"
-                ],
+                "required": ["name", "email", "password"],
                 "properties": {
                   "name": {
                     "type": "string",
@@ -115,11 +109,9 @@
         }
       }
     },
-    "/api/auth/login": {
+    "/auth/login": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Login user",
         "operationId": "loginUser",
         "description": "Login user with email and password",
@@ -130,10 +122,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "email",
-                  "password"
-                ],
+                "required": ["email", "password"],
                 "properties": {
                   "email": {
                     "type": "string",
@@ -185,11 +174,9 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/auth/logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Logout user",
         "operationId": "logoutUser",
         "description": "Logout user and clear cookies",
@@ -208,55 +195,71 @@
         }
       }
     },
-    "/api/weeks/current": {
+    "/diaries": {
       "get": {
-        "tags": [
-          "Weeks"
-        ],
-        "summary": "Отримати поточний тиждень (приватна версія)",
-        "operationId": "getCurrentWeekData",
-        "description": "Повертає дані про поточний тиждень вагітності на основі переданої дати пологів (`dueDate`). Ендпоінт вимагає авторизації.\n",
+        "tags": ["Diaries"],
+        "summary": "Get user diaries",
+        "operationId": "getUserDiaries",
+        "description": "Returns all diaries for the authenticated user.",
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "parameters": [
-          {
-            "name": "dueDate",
-            "in": "query",
-            "required": true,
-            "description": "Дата передбачуваних пологів (формат YYYY-MM-DD)",
-            "schema": {
-              "type": "string",
-              "format": "date",
-              "example": "2025-12-19"
-            }
-          }
-        ],
         "responses": {
           "200": {
-            "description": "Успішна відповідь",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "week": {
-                      "type": "integer",
-                      "example": 28
-                    },
-                    "daysToDue": {
-                      "type": "integer",
-                      "example": 89
-                    },
-                    "pack": {
-                      "$ref": "#/components/schemas/Pack"
+            "$ref": "#/components/responses/200"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Diaries"],
+        "summary": "Create new diary entry",
+        "operationId": "createDiary",
+        "description": "Creates a new diary entry for the authenticated user.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "description", "date", "emotions"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "First baby kick"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Today I felt the gentle kicks - it as incredible!"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-09-20"
+                  },
+                  "emotions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Emotion ObjectId",
+                      "example": "6895bd86a5c677999ed2ae2c"
                     }
                   }
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/201"
           },
           "400": {
             "$ref": "#/components/responses/400"
@@ -270,34 +273,76 @@
         }
       }
     },
-    "/api/weeks/current/public": {
-      "get": {
-        "tags": [
-          "Weeks"
+    "/diaries/{diaryId}": {
+      "patch": {
+        "tags": ["Diaries"],
+        "summary": "Update diary entry",
+        "operationId": "updateDiary",
+        "description": "Update a diary entry for the authenticated user.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "diaryId",
+            "required": true,
+            "description": "Diary ID to update",
+            "schema": {
+              "type": "string",
+              "example": "68cd804b54ecfa2d01635545"
+            }
+          }
         ],
-        "summary": "Отримати поточний тиждень (публічна версія)",
-        "operationId": "getCurrentWeekDataPublic",
-        "description": "Повертає дані про поточний тиждень вагітності, включно з інформацією про розвиток дитини та відчуття мами. Публічний ендпоінт.\n",
-        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryUpdate"
+              },
+              "example": {
+                "title": "Updated entry: Doctors visit",
+                "description": "Added the ultrasound results, doctor said everything looks great!",
+                "date": "2025-09-20",
+                "emotions": ["6895bd86a5c677999ed2ae27"]
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Успішна відповідь",
+            "description": "Successfully updated diary!",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "week": {
+                    "status": {
                       "type": "integer",
-                      "example": 5
+                      "example": 200
                     },
-                    "daysToDue": {
-                      "type": "integer",
-                      "example": 252
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated diary!"
                     },
-                    "pack": {
-                      "$ref": "#/components/schemas/Pack"
+                    "data": {
+                      "$ref": "#/components/schemas/Diary"
                     }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "Successfully updated diary!",
+                  "data": {
+                    "_id": "68cc61d870990cf24572f399",
+                    "title": "Updated entry: Doctors visit",
+                    "description": "Added the ultrasound results, doctor said everything looks great!",
+                    "date": "2025-09-20",
+                    "emotions": [
+                      "6895bd86a5c677999ed2ae27",
+                      "6895bd86a5c677999ed2ae16"
+                    ],
+                    "userId": "68cc619370990cf24572f395",
+                    "createdAt": "2025-09-19T17:21:36.199Z",
+                    "updatedAt": "2025-09-19T17:31:10.199Z"
                   }
                 }
               }
@@ -305,62 +350,6 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
-          }
-        }
-      }
-    },
-    "/api/weeks/{weekNumber}": {
-      "get": {
-        "tags": [
-          "Weeks"
-        ],
-        "summary": "Отримати дані по конкретному тижню",
-        "operationId": "getWeekMomBabyData",
-        "description": "Повертає детальну інформацію про розвиток дитини та стан мами для конкретного тижня вагітності.\n",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "weekNumber",
-            "in": "path",
-            "required": true,
-            "description": "Номер тижня (1–40)",
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 40,
-              "example": 12
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Успішна відповідь",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "week": {
-                      "type": "integer",
-                      "example": 12
-                    },
-                    "baby": {
-                      "$ref": "#/components/schemas/Baby"
-                    },
-                    "mom": {
-                      "$ref": "#/components/schemas/Mom"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -369,46 +358,63 @@
             "$ref": "#/components/responses/500"
           }
         }
-      }
-    },
-    "/api/weeks/{weekNumber}/mom": {
-      "get": {
-        "tags": [
-          "Weeks"
-        ],
-        "summary": "Отримати дані про маму для конкретного тижня",
-        "operationId": "getWeekMomData",
-        "description": "Повертає інформацію про стан мами та поради для певного тижня вагітності.\n",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+      },
+      "delete": {
+        "tags": ["Diaries"],
+        "summary": "Delete diary",
+        "operationId": "deletedDiary",
+        "description": "Delete diary for the authenticated user.",
         "parameters": [
           {
             "in": "path",
-            "name": "weekNumber",
+            "name": "diaryId",
             "required": true,
+            "description": "Diary ID to delete",
             "schema": {
-              "type": "integer"
-            },
-            "description": "Номер тижня вагітності"
+              "type": "string",
+              "example": "68cd628bab0811759b9d8226"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Дані для мами",
+            "description": "Successfully deleted diary entry!",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "week": {
+                    "status": {
                       "type": "integer",
-                      "example": 12
+                      "example": 200
                     },
-                    "mom": {
-                      "$ref": "#/components/schemas/mom"
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully deleted diary entry!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Diary"
+                    }
+                  }
+                },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully delete diary entry!",
+                      "data": {
+                        "_id": "68cd804b54ecfa2d01635545",
+                        "title": "Moments with you",
+                        "description": "You are still so small, yet my whole life already revolves around you.",
+                        "date": "2025-09-20T00:00:00.000Z",
+                        "emotions": [
+                          "6895bd86a5c677999ed2ae17",
+                          "6895bd86a5c677999ed2ae30"
+                        ],
+                        "userId": "68cc2d4187e54afd6273db2",
+                        "createdAt": "2025-09-19T16:09:47.277Z",
+                        "updatedAt": "2025-09-19T16:09:47.277Z"
+                      }
                     }
                   }
                 }
@@ -417,56 +423,12 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
-          }
-        }
-      }
-    },
-    "/api/weeks/{weekNumber}/baby": {
-      "get": {
-        "tags": [
-          "Weeks"
-        ],
-        "summary": "Отримати дані про дитину для конкретного тижня",
-        "operationId": "getWeekBabyData",
-        "description": "Повертає інформацію про розвиток дитини для певного тижня вагітності.\n",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "weekNumber",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Номер тижня вагітності"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Дані для дитини",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "week": {
-                      "type": "integer",
-                      "example": 12
-                    },
-                    "baby": {
-                      "$ref": "#/components/schemas/baby"
-                    }
-                  }
-                }
-              }
-            }
           },
-          "401": {
-            "$ref": "#/components/responses/401"
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -479,17 +441,214 @@
         "scheme": "bearer"
       }
     },
+    "schemas": {
+      "Diary": {
+        "type": "object",
+        "required": ["_id", "title", "description", "emotions", "userId"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Diary id",
+            "example": "68cc61d870990cf24572f399"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of notes in your diary",
+            "example": "First hi!"
+          },
+          "description": {
+            "type": "string",
+            "description": "Write what's on your mind",
+            "example": "It happened! First touchdown."
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "When user created note in diary",
+            "example": "2025-01-28"
+          },
+          "emotions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Emotion ID",
+                  "example": "6895bd86a5c677999ed2ae18"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Emotion title",
+                  "example": "Гармонія"
+                }
+              }
+            }
+          },
+          "userId": {
+            "type": "string",
+            "description": "Owner of the diary entry",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "68cc619370990cf24572f395"
+              },
+              "name": {
+                "type": "string",
+                "example": "Vikky"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "example": "2025-09-19T14:02:51.012Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "example": "2025-09-19T14:02:51.012Z"
+          }
+        }
+      },
+      "DiaryUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Doctors visit update"
+          },
+          "description": {
+            "type": "string",
+            "example": "Had an ultrasound today, the baby is growing well and everything looks perfect!"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-09-20"
+          },
+          "emotions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Emotion ObjectId",
+              "example": "6895bd86a5c677999ed2ae17"
+            }
+          }
+        }
+      }
+    },
     "responses": {
+      "200": {
+        "description": "Successfully retrieved diaries!",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["status", "message", "data"],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully created diary entry!"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/Diary"
+                }
+              }
+            },
+            "example": {
+              "success": {
+                "value": {
+                  "status": 200,
+                  "message": "Successfully retrieved diaries!",
+                  "data": {
+                    "_id": "68cd5f5e5470921c87d71748",
+                    "title": "A piece of my heart",
+                    "description": "You are still so small, yet my whole life already revolves around you.",
+                    "data": "2025-09-20T00:00:00.000Z"
+                  },
+                  "emotions": [
+                    {
+                      "_id": "6895bd86a5c677999ed2ae2c",
+                      "title": "Гармонія"
+                    },
+                    {
+                      "_id": "6895bd86a5c677999ed2ae27",
+                      "title": "Врівноваженість"
+                    }
+                  ],
+                  "userId": {
+                    "_id": "68cc2d6e187e54afd6273db6",
+                    "name": "Vikky",
+                    "email": "test1@gmail.com"
+                  },
+                  "createdAt": "2025-09-19T13:49:18.965Z",
+                  "updatedAt": "2025-09-19T13:49:18.965Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "201": {
+        "description": "Successfully creates diary entry!",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": ["status", "message", "data"],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully creates diary entry!"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/Diary"
+                }
+              }
+            },
+            "examples": {
+              "created": {
+                "value": {
+                  "status": 201,
+                  "message": "Successfully creates diary entry!",
+                  "data": {
+                    "_id": "68cd804b54ecfa2d01635545",
+                    "title": "Moments with you",
+                    "description": "You are still so small, yet my whole life already revolves around you.",
+                    "date": "2025-09-20T00:00:00.000Z",
+                    "emotions": [
+                      "6895bd86a5c677999ed2ae17",
+                      "6895bd86a5c677999ed2ae30"
+                    ],
+                    "userId": "68cc2d4187e54afd6273db2",
+                    "id": "68cd804b54ecfa2d01635545",
+                    "createdAt": "2025-09-19T16:09:47.277Z",
+                    "updatedAt": "2025-09-19T16:09:47.277Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "400": {
         "description": "Bad Request",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -510,11 +669,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
+              "required": ["status", "message", "data"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -526,9 +681,7 @@
                 },
                 "data": {
                   "type": "object",
-                  "required": [
-                    "message"
-                  ],
+                  "required": ["message"],
                   "properties": {
                     "message": {
                       "type": "string",
@@ -542,15 +695,12 @@
         }
       },
       "404": {
-        "description": "Contact not found",
+        "description": "Diary not found",
         "content": {
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message", "data"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -558,9 +708,17 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Contact  not found"
+                  "example": "Diary not found"
+                },
+                "data": {
+                  "type": "null"
                 }
               }
+            },
+            "example": {
+              "status": 404,
+              "message": "Diary not found",
+              "data": null
             }
           }
         }
@@ -571,10 +729,7 @@
           "application/json": {
             "schema": {
               "type": "object",
-              "required": [
-                "status",
-                "message"
-              ],
+              "required": ["status", "message"],
               "properties": {
                 "status": {
                   "type": "integer",
@@ -585,207 +740,6 @@
                   "example": "Validation failed phoneNumber, contactType, name is required"
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "schemas": {
-      "Baby": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "example": "6895ce04a5c677999ed2af29"
-          },
-          "analogy": {
-            "type": "string",
-            "example": "Насінина кунжуту"
-          },
-          "weekNumber": {
-            "type": "integer",
-            "example": 5
-          },
-          "babySize": {
-            "type": "number",
-            "example": 0.3
-          },
-          "babyWeight": {
-            "type": "number",
-            "example": 0.2
-          },
-          "image": {
-            "type": "string",
-            "format": "uri",
-            "example": "https://ftp.goit.study/img/lehlehka/6895ce04a5c677999ed2af29.webp"
-          },
-          "babyActivity": {
-            "type": "string",
-            "example": "Найголовніша подія тижня — починає битися крихітне серце!"
-          },
-          "babyDevelopment": {
-            "type": "string"
-          },
-          "interestingFact": {
-            "type": "string"
-          },
-          "momDailyTips": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
-      },
-      "Mom": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "example": "6895cb58a5c677999ed2aefd"
-          },
-          "weekNumber": {
-            "type": "integer",
-            "example": 5
-          },
-          "feelings": {
-            "type": "object",
-            "properties": {
-              "states": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "Нудота",
-                  "Часте сечовипускання",
-                  "Емоційні гойдалки"
-                ]
-              },
-              "sensationDescr": {
-                "type": "string"
-              }
-            }
-          },
-          "comfortTips": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "category": {
-                  "type": "string"
-                },
-                "tip": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "Pack": {
-        "type": "object",
-        "properties": {
-          "week": {
-            "type": "integer",
-            "example": 5
-          },
-          "baby": {
-            "$ref": "#/components/schemas/Baby"
-          },
-          "mom": {
-            "$ref": "#/components/schemas/Mom"
-          }
-        }
-      },
-      "mom": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "example": "6895cb58a5c677999ed2aefd"
-          },
-          "weekNumber": {
-            "type": "integer",
-            "example": 5
-          },
-          "feelings": {
-            "type": "object",
-            "properties": {
-              "states": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                },
-                "example": [
-                  "Нудота",
-                  "Часте сечовипускання",
-                  "Емоційні гойдалки"
-                ]
-              },
-              "sensationDescr": {
-                "type": "string"
-              }
-            }
-          },
-          "comfortTips": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "category": {
-                  "type": "string"
-                },
-                "tip": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      },
-      "baby": {
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string",
-            "example": "6895ce04a5c677999ed2af29"
-          },
-          "analogy": {
-            "type": "string",
-            "example": "Насінина кунжуту"
-          },
-          "weekNumber": {
-            "type": "integer",
-            "example": 5
-          },
-          "babySize": {
-            "type": "number",
-            "example": 0.3
-          },
-          "babyWeight": {
-            "type": "number",
-            "example": 0.2
-          },
-          "image": {
-            "type": "string",
-            "format": "uri",
-            "example": "https://ftp.goit.study/img/lehlehka/6895ce04a5c677999ed2af29.webp"
-          },
-          "babyActivity": {
-            "type": "string",
-            "example": "Найголовніша подія тижня — починає битися крихітне серце!"
-          },
-          "babyDevelopment": {
-            "type": "string"
-          },
-          "interestingFact": {
-            "type": "string"
-          },
-          "momDailyTips": {
-            "type": "array",
-            "items": {
-              "type": "string"
             }
           }
         }
