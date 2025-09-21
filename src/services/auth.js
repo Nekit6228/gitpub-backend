@@ -92,3 +92,30 @@ export const refreshUsersSession = async ({sessionId,refreshToken}) => {
         ...newSession,
     });
 };
+
+export const requestResetToken = async (email) => {
+  const user = await UserCollections.findOne({ email });
+  if (!user) throw createHttpError(404, "User not found");
+
+  const resetToken = randomBytes(32).toString("hex");
+  const resetTokenExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 година
+
+  user.resetToken = resetToken;
+  user.resetTokenExpires = resetTokenExpires;
+  await user.save();
+
+  return { resetToken, resetTokenExpires };
+};
+export const resetPassword = async ({ email, resetToken, newPassword }) => {
+  const user = await UserCollections.findOne({ email, resetToken });
+  if (!user || new Date() > new Date(user.resetTokenExpires)) {
+    throw createHttpError(400, "Invalid or expired token");
+  }
+
+  user.password = await bcrypt.hash(newPassword, 10);
+  user.resetToken = null;
+  user.resetTokenExpires = null;
+  await user.save();
+
+  return { message: "Password was reset successfully" };
+};

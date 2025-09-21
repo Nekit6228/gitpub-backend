@@ -5,7 +5,7 @@ import multer from "multer";
 import { getMe, updateAvatar, updateUser } from "../controllers/user.js";
 import { refreshUserSessionController } from "../controllers/auth.js";
 import { validateBody } from "../middlewares/validateBody.js";
-import { updateUserSchema } from "../schemas/user.js";
+import { updateUserSchema } from "../db/models/user.js";
 
 const router = Router();
 const upload = multer({ dest: "uploads/" });

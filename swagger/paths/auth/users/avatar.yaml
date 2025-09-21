@@ -1,0 +1,32 @@
+post:
+  tags:
+    - User
+  summary: Update user avatar
+  description: Upload and update avatar for the authenticated user.
+  security:
+    - bearerAuth: []
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          properties:
+            avatar:
+              type: string
+              format: binary
+              description: Image file
+  responses:
+    '200':
+      description: Avatar updated
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              avatar:
+                type: string
+                format: url
+                example: 'https://cloudinary.com/avatar.jpg'
+    '401':
+      $ref: '../../components/responses/401.yaml'

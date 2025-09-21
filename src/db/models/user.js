@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import Joi from "joi";
 
 const userSchema = new Schema(
   {
@@ -42,6 +43,15 @@ const userSchema = new Schema(
       type: Date,
       default: null,
     },
+    // Поля для відновлення паролю
+    resetToken: {
+      type: String,
+      default: null,
+    },
+    resetTokenExpires: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true, versionKey: false }
 );
@@ -52,4 +62,15 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
-export const UserCollection = model("users", userSchema);
+export const UserCollections = model("users", userSchema);
+
+// Joi-схема для оновлення профілю користувача
+// Вимагає щоб був хоча б один з перелічених полів
+export const updateUserSchema = Joi.object({
+  name: Joi.string().max(32).trim(),
+  email: Joi.string().email().max(64).trim().lowercase(),
+  password: Joi.string().min(8).max(128),
+  avatar: Joi.string().uri().allow(""),
+  gender: Joi.string().valid("male", "female", "other"),
+  dueDate: Joi.date().allow(null),
+}).min(1);

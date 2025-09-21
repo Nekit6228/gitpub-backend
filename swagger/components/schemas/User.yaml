@@ -1,0 +1,21 @@
+type: object
+properties:
+  name:
+    type: string
+    example: 'Igor'
+  email:
+    type: string
+    format: email
+    example: 'igor@example.com'
+  avatar:
+    type: string
+    format: url
+    example: 'https://cloudinary.com/avatar.jpg'
+  gender:
+    type: string
+    enum: [male, female, other]
+    example: 'male'
+  dueDate:
+    type: string
+    format: date-time
+    example: '2025-11-01T00:00:00.000Z'
