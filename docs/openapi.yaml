@@ -7,27 +7,48 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   description: This is a documentation of App
 tags:
-  - name: Contacts
-    description: Contact operations.
   - name: Auth
     description: Auth operations.
+  - name: Weeks
+    description: Weeks operations
 servers:
   - url: https://gitpub-backend-qq3d.onrender.com
     description: Production server
   - url: http://localhost:3000
     description: Local development server
 paths:
-  /auth/register:
+  /api/auth/register:
     post:
       $ref: ../swagger/paths/auth/register.yaml
 
-  /auth/login:
+  /api/auth/login:
     post:
       $ref: ../swagger/paths/auth/login.yaml
 
-  /auth/logout:
+  /api/auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout.yaml
+
+      # ======================== WEEKS ========================
+  /api/weeks/current:
+    get:
+      $ref: ../swagger/paths/weeks/current.yaml
+
+  /api/weeks/current/public:
+    get:
+      $ref: ../swagger/paths/weeks/currentPublic.yaml
+
+  /api/weeks/{weekNumber}:
+    get:
+      $ref: ../swagger/paths/weeks/week.yaml
+
+  /api/weeks/{weekNumber}/mom:
+    get:
+      $ref: ../swagger/paths/weeks/{weekNumber}/mom.yaml
+
+  /api/weeks/{weekNumber}/baby:
+    get:
+      $ref: ../swagger/paths/weeks/{weekNumber}/baby.yaml
 
 components:
   securitySchemes:

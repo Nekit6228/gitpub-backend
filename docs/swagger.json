@@ -21,16 +21,16 @@
   ],
   "tags": [
     {
-      "name": "Contacts",
-      "description": "Contact operations."
-    },
-    {
       "name": "Auth",
       "description": "Auth operations."
+    },
+    {
+      "name": "Weeks",
+      "description": "Weeks operations"
     }
   ],
   "paths": {
-    "/auth/register": {
+    "/api/auth/register": {
       "post": {
         "tags": [
           "Auth"
@@ -62,6 +62,7 @@
                   },
                   "password": {
                     "type": "string",
+                    "minLength": 8,
                     "example": "StrongPass123!"
                   }
                 }
@@ -114,7 +115,7 @@
         }
       }
     },
-    "/auth/login": {
+    "/api/auth/login": {
       "post": {
         "tags": [
           "Auth"
@@ -184,7 +185,7 @@
         }
       }
     },
-    "/auth/logout": {
+    "/api/auth/logout": {
       "post": {
         "tags": [
           "Auth"
@@ -200,6 +201,269 @@
         "responses": {
           "204": {
             "description": "Successfully logged out (No content)"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/api/weeks/current": {
+      "get": {
+        "tags": [
+          "Weeks"
+        ],
+        "summary": "Отримати поточний тиждень (приватна версія)",
+        "operationId": "getCurrentWeekData",
+        "description": "Повертає дані про поточний тиждень вагітності на основі переданої дати пологів (`dueDate`). Ендпоінт вимагає авторизації.\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "dueDate",
+            "in": "query",
+            "required": true,
+            "description": "Дата передбачуваних пологів (формат YYYY-MM-DD)",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "example": "2025-12-19"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успішна відповідь",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "week": {
+                      "type": "integer",
+                      "example": 28
+                    },
+                    "daysToDue": {
+                      "type": "integer",
+                      "example": 89
+                    },
+                    "pack": {
+                      "$ref": "#/components/schemas/Pack"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/api/weeks/current/public": {
+      "get": {
+        "tags": [
+          "Weeks"
+        ],
+        "summary": "Отримати поточний тиждень (публічна версія)",
+        "operationId": "getCurrentWeekDataPublic",
+        "description": "Повертає дані про поточний тиждень вагітності, включно з інформацією про розвиток дитини та відчуття мами. Публічний ендпоінт.\n",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Успішна відповідь",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "week": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "daysToDue": {
+                      "type": "integer",
+                      "example": 252
+                    },
+                    "pack": {
+                      "$ref": "#/components/schemas/Pack"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/api/weeks/{weekNumber}": {
+      "get": {
+        "tags": [
+          "Weeks"
+        ],
+        "summary": "Отримати дані по конкретному тижню",
+        "operationId": "getWeekMomBabyData",
+        "description": "Повертає детальну інформацію про розвиток дитини та стан мами для конкретного тижня вагітності.\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "weekNumber",
+            "in": "path",
+            "required": true,
+            "description": "Номер тижня (1–40)",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40,
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успішна відповідь",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "week": {
+                      "type": "integer",
+                      "example": 12
+                    },
+                    "baby": {
+                      "$ref": "#/components/schemas/Baby"
+                    },
+                    "mom": {
+                      "$ref": "#/components/schemas/Mom"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/api/weeks/{weekNumber}/mom": {
+      "get": {
+        "tags": [
+          "Weeks"
+        ],
+        "summary": "Отримати дані про маму для конкретного тижня",
+        "operationId": "getWeekMomData",
+        "description": "Повертає інформацію про стан мами та поради для певного тижня вагітності.\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "weekNumber",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Номер тижня вагітності"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Дані для мами",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "week": {
+                      "type": "integer",
+                      "example": 12
+                    },
+                    "mom": {
+                      "$ref": "#/components/schemas/mom"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/api/weeks/{weekNumber}/baby": {
+      "get": {
+        "tags": [
+          "Weeks"
+        ],
+        "summary": "Отримати дані про дитину для конкретного тижня",
+        "operationId": "getWeekBabyData",
+        "description": "Повертає інформацію про розвиток дитини для певного тижня вагітності.\n",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "weekNumber",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Номер тижня вагітності"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Дані для дитини",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "week": {
+                      "type": "integer",
+                      "example": 12
+                    },
+                    "baby": {
+                      "$ref": "#/components/schemas/baby"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -273,6 +537,255 @@
                   }
                 }
               }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Contact not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Contact  not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Invalid request payload",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Validation failed phoneNumber, contactType, name is required"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Baby": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "6895ce04a5c677999ed2af29"
+          },
+          "analogy": {
+            "type": "string",
+            "example": "Насінина кунжуту"
+          },
+          "weekNumber": {
+            "type": "integer",
+            "example": 5
+          },
+          "babySize": {
+            "type": "number",
+            "example": 0.3
+          },
+          "babyWeight": {
+            "type": "number",
+            "example": 0.2
+          },
+          "image": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://ftp.goit.study/img/lehlehka/6895ce04a5c677999ed2af29.webp"
+          },
+          "babyActivity": {
+            "type": "string",
+            "example": "Найголовніша подія тижня — починає битися крихітне серце!"
+          },
+          "babyDevelopment": {
+            "type": "string"
+          },
+          "interestingFact": {
+            "type": "string"
+          },
+          "momDailyTips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Mom": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "6895cb58a5c677999ed2aefd"
+          },
+          "weekNumber": {
+            "type": "integer",
+            "example": 5
+          },
+          "feelings": {
+            "type": "object",
+            "properties": {
+              "states": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "Нудота",
+                  "Часте сечовипускання",
+                  "Емоційні гойдалки"
+                ]
+              },
+              "sensationDescr": {
+                "type": "string"
+              }
+            }
+          },
+          "comfortTips": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "tip": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Pack": {
+        "type": "object",
+        "properties": {
+          "week": {
+            "type": "integer",
+            "example": 5
+          },
+          "baby": {
+            "$ref": "#/components/schemas/Baby"
+          },
+          "mom": {
+            "$ref": "#/components/schemas/Mom"
+          }
+        }
+      },
+      "mom": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "6895cb58a5c677999ed2aefd"
+          },
+          "weekNumber": {
+            "type": "integer",
+            "example": 5
+          },
+          "feelings": {
+            "type": "object",
+            "properties": {
+              "states": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "Нудота",
+                  "Часте сечовипускання",
+                  "Емоційні гойдалки"
+                ]
+              },
+              "sensationDescr": {
+                "type": "string"
+              }
+            }
+          },
+          "comfortTips": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string"
+                },
+                "tip": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "baby": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "6895ce04a5c677999ed2af29"
+          },
+          "analogy": {
+            "type": "string",
+            "example": "Насінина кунжуту"
+          },
+          "weekNumber": {
+            "type": "integer",
+            "example": 5
+          },
+          "babySize": {
+            "type": "number",
+            "example": 0.3
+          },
+          "babyWeight": {
+            "type": "number",
+            "example": 0.2
+          },
+          "image": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://ftp.goit.study/img/lehlehka/6895ce04a5c677999ed2af29.webp"
+          },
+          "babyActivity": {
+            "type": "string",
+            "example": "Найголовніша подія тижня — починає битися крихітне серце!"
+          },
+          "babyDevelopment": {
+            "type": "string"
+          },
+          "interestingFact": {
+            "type": "string"
+          },
+          "momDailyTips": {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           }
         }
