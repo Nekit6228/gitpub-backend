@@ -5,20 +5,20 @@ export const getUserDiaries = async (userId) => {
 };
 
 export const createDiaryService = async(payload) => {
-   const createDiary = await DiaryCollection.create(payload)
+   const createDiary = await DiaryCollection.create(payload);
    return createDiary;
 };
 
 export const updateDiaryService = async (diaryId, userId, payload) => {
    return await DiaryCollection.findOneAndUpdate(
-     { _id: diaryId, userId }, 
+     { _id: diaryId, userId },
      payload,
      { new: true, runValidators: true }
    );
  };
- 
+
  export const deleteDiaryService = async(diaryId, userId) => {
    return await DiaryCollection.findOneAndDelete(
-      { _id: diaryId, userId }, 
+      { _id: diaryId, userId },
     );
  };

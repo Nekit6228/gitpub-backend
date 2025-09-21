@@ -8,8 +8,6 @@ info:
   description: This is a documentation of Leleka App
 
 tags:
-  - name: Contacts
-    description: Contact operations
   - name: Auth
     description: Auth operations
   - name: Diaries
@@ -22,27 +20,49 @@ servers:
     description: Local development server
 
 paths:
-  /auth/register:
+  /api/auth/register:
     post:
       $ref: '../swagger/paths/auth/register.yaml'
-  /auth/login:
+  /api/auth/login:
     post:
       $ref: '../swagger/paths/auth/login.yaml'
-  /auth/logout:
+  /api/auth/logout:
     post:
       $ref: '../swagger/paths/auth/logout.yaml'
 
-  /diaries:
+  /api/diaries:
     get:
       $ref: ../swagger/paths/diary/get.yaml
-    post: 
+    post:
       $ref: ../swagger/paths/diary/post.yaml
 
-  /diaries/{diaryId}: 
-    patch: 
-      $ref: ../swagger/paths/diary/{id}/patch.yaml 
-    delete: 
-      $ref: ../swagger/paths/diary/{id}/delete.yaml   
+  /api/diaries/{diaryId}:
+    patch:
+      $ref: ../swagger/paths/diary/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/diary/{id}/delete.yaml
+
+      # ======================== WEEKS ========================
+
+  /api/weeks/current:
+    get:
+      $ref: ../swagger/paths/weeks/current.yaml
+
+  /api/weeks/current/public:
+    get:
+      $ref: ../swagger/paths/weeks/currentPublic.yaml
+
+  /api/weeks/{weekNumber}:
+    get:
+      $ref: ../swagger/paths/weeks/week.yaml
+
+  /api/weeks/{weekNumber}/mom:
+    get:
+      $ref: ../swagger/paths/weeks/{weekNumber}/mom.yaml
+
+  /api/weeks/{weekNumber}/baby:
+    get:
+      $ref: ../swagger/paths/weeks/{weekNumber}/baby.yaml
 
 components:
   securitySchemes:
