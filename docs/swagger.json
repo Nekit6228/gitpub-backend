@@ -21,10 +21,6 @@
   ],
   "tags": [
     {
-      "name": "Contacts",
-      "description": "Contact operations"
-    },
-    {
       "name": "Auth",
       "description": "Auth operations"
     },

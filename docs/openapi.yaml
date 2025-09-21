@@ -8,8 +8,6 @@ info:
   description: This is a documentation of Leleka App
 
 tags:
-  - name: Contacts
-    description: Contact operations
   - name: Auth
     description: Auth operations
   - name: Diaries
@@ -35,14 +33,14 @@ paths:
   /diaries:
     get:
       $ref: ../swagger/paths/diary/get.yaml
-    post: 
+    post:
       $ref: ../swagger/paths/diary/post.yaml
 
-  /diaries/{diaryId}: 
-    patch: 
-      $ref: ../swagger/paths/diary/{id}/patch.yaml 
-    delete: 
-      $ref: ../swagger/paths/diary/{id}/delete.yaml   
+  /diaries/{diaryId}:
+    patch:
+      $ref: ../swagger/paths/diary/{id}/patch.yaml
+    delete:
+      $ref: ../swagger/paths/diary/{id}/delete.yaml
 
 components:
   securitySchemes:
