@@ -1,0 +1,39 @@
+description: Successfully retrieved diaries!
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Successfully created diary entry!
+        data:
+          $ref: '../../schemas/diary.yaml#/Diary'
+    example:
+      success:
+        value:
+          status: 200
+          message: 'Successfully retrieved diaries!'
+          data:
+            _id: '68cd5f5e5470921c87d71748'
+            title: 'A piece of my heart'
+            description: 'You are still so small, yet my whole life already revolves around you.'
+            data: '2025-09-20T00:00:00.000Z'
+          emotions: 
+            - _id: '6895bd86a5c677999ed2ae2c'
+              title: 'Гармонія'
+            - _id: '6895bd86a5c677999ed2ae27'
+              title: 'Врівноваженість'
+          userId:
+            _id: '68cc2d6e187e54afd6273db6'
+            name: 'Vikky'
+            email: 'test1@gmail.com'
+          createdAt: '2025-09-19T13:49:18.965Z'
+          updatedAt: '2025-09-19T13:49:18.965Z'  

@@ -27,6 +27,10 @@
     {
       "name": "Auth",
       "description": "Auth operations"
+    },
+    {
+      "name": "Diaries",
+      "description": "Diary operations."
     }
   ],
   "paths": {
@@ -207,6 +211,259 @@
           }
         }
       }
+    },
+    "/diaries": {
+      "get": {
+        "tags": [
+          "Diaries"
+        ],
+        "summary": "Get user diaries",
+        "operationId": "getUserDiaries",
+        "description": "Returns all diaries for the authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Diaries"
+        ],
+        "summary": "Create new diary entry",
+        "operationId": "createDiary",
+        "description": "Creates a new diary entry for the authenticated user.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "description",
+                  "date",
+                  "emotions"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "First baby kick"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Today I felt the gentle kicks - it as incredible!"
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-09-20"
+                  },
+                  "emotions": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Emotion ObjectId",
+                      "example": "6895bd86a5c677999ed2ae2c"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "$ref": "#/components/responses/201"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
+    },
+    "/diaries/{diaryId}": {
+      "patch": {
+        "tags": [
+          "Diaries"
+        ],
+        "summary": "Update diary entry",
+        "operationId": "updateDiary",
+        "description": "Update a diary entry for the authenticated user.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "diaryId",
+            "required": true,
+            "description": "Diary ID to update",
+            "schema": {
+              "type": "string",
+              "example": "68cd804b54ecfa2d01635545"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiaryUpdate"
+              },
+              "example": {
+                "title": "Updated entry: Doctors visit",
+                "description": "Added the ultrasound results, doctor said everything looks great!",
+                "date": "2025-09-20",
+                "emotions": [
+                  "6895bd86a5c677999ed2ae27"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated diary!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully updated diary!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Diary"
+                    }
+                  }
+                },
+                "example": {
+                  "status": 200,
+                  "message": "Successfully updated diary!",
+                  "data": {
+                    "_id": "68cc61d870990cf24572f399",
+                    "title": "Updated entry: Doctors visit",
+                    "description": "Added the ultrasound results, doctor said everything looks great!",
+                    "date": "2025-09-20",
+                    "emotions": [
+                      "6895bd86a5c677999ed2ae27",
+                      "6895bd86a5c677999ed2ae16"
+                    ],
+                    "userId": "68cc619370990cf24572f395",
+                    "createdAt": "2025-09-19T17:21:36.199Z",
+                    "updatedAt": "2025-09-19T17:31:10.199Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Diaries"
+        ],
+        "summary": "Delete diary",
+        "operationId": "deletedDiary",
+        "description": "Delete diary for the authenticated user.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "diaryId",
+            "required": true,
+            "description": "Diary ID to delete",
+            "schema": {
+              "type": "string",
+              "example": "68cd628bab0811759b9d8226"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted diary entry!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully deleted diary entry!"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Diary"
+                    }
+                  }
+                },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "status": 200,
+                      "message": "Successfully delete diary entry!",
+                      "data": {
+                        "_id": "68cd804b54ecfa2d01635545",
+                        "title": "Moments with you",
+                        "description": "You are still so small, yet my whole life already revolves around you.",
+                        "date": "2025-09-20T00:00:00.000Z",
+                        "emotions": [
+                          "6895bd86a5c677999ed2ae17",
+                          "6895bd86a5c677999ed2ae30"
+                        ],
+                        "userId": "68cc2d4187e54afd6273db2",
+                        "createdAt": "2025-09-19T16:09:47.277Z",
+                        "updatedAt": "2025-09-19T16:09:47.277Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -216,7 +473,221 @@
         "scheme": "bearer"
       }
     },
+    "schemas": {
+      "Diary": {
+        "type": "object",
+        "required": [
+          "_id",
+          "title",
+          "description",
+          "emotions",
+          "userId"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Diary id",
+            "example": "68cc61d870990cf24572f399"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of notes in your diary",
+            "example": "First hi!"
+          },
+          "description": {
+            "type": "string",
+            "description": "Write what's on your mind",
+            "example": "It happened! First touchdown."
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "When user created note in diary",
+            "example": "2025-01-28"
+          },
+          "emotions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Emotion ID",
+                  "example": "6895bd86a5c677999ed2ae18"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Emotion title",
+                  "example": "Гармонія"
+                }
+              }
+            }
+          },
+          "userId": {
+            "type": "string",
+            "description": "Owner of the diary entry",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "68cc619370990cf24572f395"
+              },
+              "name": {
+                "type": "string",
+                "example": "Vikky"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "example": "2025-09-19T14:02:51.012Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "example": "2025-09-19T14:02:51.012Z"
+          }
+        }
+      },
+      "DiaryUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Doctors visit update"
+          },
+          "description": {
+            "type": "string",
+            "example": "Had an ultrasound today, the baby is growing well and everything looks perfect!"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2025-09-20"
+          },
+          "emotions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Emotion ObjectId",
+              "example": "6895bd86a5c677999ed2ae17"
+            }
+          }
+        }
+      }
+    },
     "responses": {
+      "200": {
+        "description": "Successfully retrieved diaries!",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 200
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully created diary entry!"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/Diary"
+                }
+              }
+            },
+            "example": {
+              "success": {
+                "value": {
+                  "status": 200,
+                  "message": "Successfully retrieved diaries!",
+                  "data": {
+                    "_id": "68cd5f5e5470921c87d71748",
+                    "title": "A piece of my heart",
+                    "description": "You are still so small, yet my whole life already revolves around you.",
+                    "data": "2025-09-20T00:00:00.000Z"
+                  },
+                  "emotions": [
+                    {
+                      "_id": "6895bd86a5c677999ed2ae2c",
+                      "title": "Гармонія"
+                    },
+                    {
+                      "_id": "6895bd86a5c677999ed2ae27",
+                      "title": "Врівноваженість"
+                    }
+                  ],
+                  "userId": {
+                    "_id": "68cc2d6e187e54afd6273db6",
+                    "name": "Vikky",
+                    "email": "test1@gmail.com"
+                  },
+                  "createdAt": "2025-09-19T13:49:18.965Z",
+                  "updatedAt": "2025-09-19T13:49:18.965Z"
+                }
+              }
+            }
+          }
+        }
+      },
+      "201": {
+        "description": "Successfully creates diary entry!",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 201
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Successfully creates diary entry!"
+                },
+                "data": {
+                  "$ref": "#/components/schemas/Diary"
+                }
+              }
+            },
+            "examples": {
+              "created": {
+                "value": {
+                  "status": 201,
+                  "message": "Successfully creates diary entry!",
+                  "data": {
+                    "_id": "68cd804b54ecfa2d01635545",
+                    "title": "Moments with you",
+                    "description": "You are still so small, yet my whole life already revolves around you.",
+                    "date": "2025-09-20T00:00:00.000Z",
+                    "emotions": [
+                      "6895bd86a5c677999ed2ae17",
+                      "6895bd86a5c677999ed2ae30"
+                    ],
+                    "userId": "68cc2d4187e54afd6273db2",
+                    "id": "68cd804b54ecfa2d01635545",
+                    "createdAt": "2025-09-19T16:09:47.277Z",
+                    "updatedAt": "2025-09-19T16:09:47.277Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "400": {
         "description": "Bad Request",
         "content": {
@@ -272,6 +743,63 @@
                       "example": "Access token expired"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Diary not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Diary not found"
+                },
+                "data": {
+                  "type": "null"
+                }
+              }
+            },
+            "example": {
+              "status": 404,
+              "message": "Diary not found",
+              "data": null
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Invalid request payload",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Validation failed phoneNumber, contactType, name is required"
                 }
               }
             }

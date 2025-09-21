@@ -1,0 +1,64 @@
+tags:
+  - Diaries
+summary: Update diary entry
+operationId: updateDiary
+description: Update a diary entry for the authenticated user.
+parameters:
+  - in: path
+    name: diaryId
+    required: true
+    description: Diary ID to update
+    schema:
+      type: string
+      example: 68cd804b54ecfa2d01635545
+
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: ../../../components/schemas/diaryUpdate.yaml#/DiaryUpdate
+      example:
+        title: "Updated entry: Doctors visit"
+        description: "Added the ultrasound results, doctor said everything looks great!"
+        date: "2025-09-20"
+        emotions:
+          - "6895bd86a5c677999ed2ae27"
+
+responses:
+  '200':
+    description: 'Successfully updated diary!'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: 'Successfully updated diary!'
+            data:
+              $ref: ../../../components/schemas/diary.yaml#/Diary
+        example:
+          status: 200
+          message: 'Successfully updated diary!'
+          data:
+            _id: "68cc61d870990cf24572f399"
+            title: "Updated entry: Doctors visit"
+            description: "Added the ultrasound results, doctor said everything looks great!"
+            date: "2025-09-20"
+            emotions:
+              - '6895bd86a5c677999ed2ae27'
+              - '6895bd86a5c677999ed2ae16'
+            userId: "68cc619370990cf24572f395"
+            createdAt: "2025-09-19T17:21:36.199Z"
+            updatedAt: "2025-09-19T17:31:10.199Z"
+
+  '401':
+    $ref: ../../../components/responses/401.yaml
+  '404':
+    $ref: ../../../components/responses/diary/404.yaml
+  '500':
+    $ref: ../../../components/responses/500.yaml
