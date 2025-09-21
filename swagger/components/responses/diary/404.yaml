@@ -1,0 +1,25 @@
+description: Diary not found
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: 'Diary not found'
+        data:
+          type: 'null'  
+    example:
+      status: 404
+      message: 'Diary not found' 
+      data: null    
+   
+
+
