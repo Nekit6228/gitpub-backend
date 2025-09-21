@@ -31,10 +31,7 @@ export const startServer = () => {
 
   app.use('/api', router);
 
-  app.use('/api', router);
-
   app.use('/api/tasks', tasksRouter);
-  app.use('/api/weeks', weeksRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
