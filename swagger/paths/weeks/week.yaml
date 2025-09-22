@@ -1,17 +1,16 @@
 tags:
   - Weeks
-summary: Отримати дані по конкретному тижню
+summary: Get data for a specific week
 operationId: getWeekMomBabyData
 description: >
-  Повертає детальну інформацію про розвиток дитини та стан мами для
-  конкретного тижня вагітності.
+  Returns detailed information about the baby's development and the mother's condition for a specific week of pregnancy
 security:
   - bearerAuth: []
 parameters:
   - name: weekNumber
     in: path
     required: true
-    description: Номер тижня (1–40)
+    description: Week number(1-40)
     schema:
       type: integer
       minimum: 1
@@ -19,7 +18,7 @@ parameters:
       example: 12
 responses:
   '200':
-    description: Успішна відповідь
+    description: Success response
     content:
       application/json:
         schema:
@@ -29,9 +28,9 @@ responses:
               type: integer
               example: 12
             baby:
-              $ref: '../../components/schemas/Baby.yaml'
+              $ref: '../../components/schemas/baby.yaml#/Baby'
             mom:
-              $ref: '../../components/schemas/Mom.yaml'
+              $ref: '../../components/schemas/mom.yaml#/Mom'
   '400':
     $ref: '../../components/responses/400.yaml'
   '404':

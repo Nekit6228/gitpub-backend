@@ -1,27 +1,28 @@
-type: object
-properties:
-  _id:
-    type: string
-    example: 6895cb58a5c677999ed2aefd
-  weekNumber:
-    type: integer
-    example: 5
-  feelings:
-    type: object
-    properties:
-      states:
-        type: array
-        items:
-          type: string
-        example: ['Нудота', 'Часте сечовипускання', 'Емоційні гойдалки']
-      sensationDescr:
-        type: string
-  comfortTips:
-    type: array
-    items:
+Mom:
+  type: object
+  properties: 
+    _id:
+      type: string
+      example: 6895cb58a5c677999ed2aefd
+    weekNumber:
+      type: integer
+      example: 5
+    feelings:
       type: object
       properties:
-        category:
+        states:
+          type: array
+          items:
+            type: string
+          example: ['Нудота', 'Часте сечовипускання', 'Емоційні гойдалки']
+        sensationDescr:
           type: string
-        tip:
-          type: string
+    comfortTips:
+      type: array
+      items:
+        type: object
+        properties:
+          category:
+            type: string
+          tip:
+            type: string

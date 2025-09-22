@@ -1,24 +1,23 @@
 tags:
   - Weeks
-summary: Отримати поточний тиждень (приватна версія)
+summary: Get current week (private version)
 operationId: getCurrentWeekData
 description: >
-  Повертає дані про поточний тиждень вагітності на основі переданої дати
-  пологів (`dueDate`). Ендпоінт вимагає авторизації.
+  Returns data about the current week of pregnancy based on the provided due date (dueDate). Authorization is required.
 security:
   - bearerAuth: []
 parameters:
   - name: dueDate
     in: query
     required: true
-    description: Дата передбачуваних пологів (формат YYYY-MM-DD)
+    description: Expected due date (format YYYY-MM-DD)
     schema:
       type: string
       format: date
       example: 2025-12-19
 responses:
   '200':
-    description: Успішна відповідь
+    description: Success response
     content:
       application/json:
         schema:
@@ -31,7 +30,7 @@ responses:
               type: integer
               example: 89
             pack:
-              $ref: '../../components/schemas/Pack.yaml'
+              $ref: '../../components/schemas/pack.yaml#/Pack'
   '400':
     $ref: '../../components/responses/400.yaml'
   '401':

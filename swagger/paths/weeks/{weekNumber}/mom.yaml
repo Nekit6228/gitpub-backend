@@ -1,9 +1,9 @@
 tags:
   - Weeks
-summary: Отримати дані про маму для конкретного тижня
+summary: Get mom data for a specific week
 operationId: getWeekMomData
 description: >
-  Повертає інформацію про стан мами та поради для певного тижня вагітності.
+  Returns information about mother's condition and tips for a given week of pregnancy
 security:
   - bearerAuth: []
 parameters:
@@ -12,10 +12,10 @@ parameters:
     required: true
     schema:
       type: integer
-    description: Номер тижня вагітності
+    description: Pregnancy week number
 responses:
   '200':
-    description: Дані для мами
+    description: Mom data
     content:
       application/json:
         schema:
@@ -25,6 +25,6 @@ responses:
               type: integer
               example: 12
             mom:
-              $ref: '../../../components/schemas/mom.yaml'
+              $ref: '../../../components/schemas/mom.yaml#/Mom'
   '401':
     $ref: '../../../components/responses/401.yaml'
