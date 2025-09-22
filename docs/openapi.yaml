@@ -10,10 +10,12 @@ info:
 tags:
   - name: Auth
     description: Auth operations
-  - name: Diaries
-    description: Diary operations.
   - name: Users
     description: Users operations
+  - name: Diaries
+    description: Diary operations
+  - name: Weeks
+    description: Weeks operations  
 
 servers:
   - url: https://gitpub-backend-qq3d.onrender.com
@@ -34,7 +36,19 @@ paths:
   /api/auth/refresh:
     post:
       $ref: ../swagger/paths/auth/refresh.yaml
+    
+ # ======================== User ========================     
+  /api/users/me:
+    get:
+      $ref: ../swagger/paths/user/getUser.yaml
+  /api/users/avatar:
+    post:
+      $ref: ../swagger/paths/user/patchAvatar.yaml    
+  /api/users:
+    patch:
+      $ref: ../swagger/paths/user/patchUser.yaml
 
+# ======================== Diary ========================
   /api/diaries:
     get:
       $ref: ../swagger/paths/diary/get.yaml
@@ -47,18 +61,7 @@ paths:
     delete:
       $ref: ../swagger/paths/diary/{id}/delete.yaml
 
-
-  /api/users:
-    patch:
-      $ref: ../swagger/paths/user/patchUser.yaml
-  /api/users/me:
-    get:
-      $ref: ../swagger/paths/user/getUser.yaml
-  /api/users/avatar:
-    post:
-      $ref: ../swagger/paths/user/patchAvatar.yaml
-
-      # ======================== WEEKS ========================
+# ======================== WEEKS ========================
 
   /api/weeks/current:
     get:
@@ -87,8 +90,14 @@ components:
       scheme: bearer
   schemas:
     User:
-      $ref: ../swagger/components/schemas/user.yaml
+      $ref: ../swagger/components/schemas/user.yaml#/User
     Diary:
-      $ref: ../swagger/components/schemas/diary.yaml
+      $ref: ../swagger/components/schemas/diary.yaml#/Diary
     DiaryUpdate:
-      $ref: ../swagger/components/schemas/diaryUpdate.yaml
+      $ref: ../swagger/components/schemas/diaryUpdate.yaml#/DiaryUpdate
+    Baby:
+      $ref: ../swagger/components/schemas/baby.yaml#/Baby
+    Mom:  
+      $ref: ../swagger/components/schemas/mom.yaml#/Mom 
+    Pack:   
+      $ref: ../swagger/components/schemas/pack.yaml#/Pack
