@@ -40,7 +40,7 @@ responses:
               type: string
               example: 'Successfully updated diary!'
             data:
-              $ref: ../../../components/schemas/diary.yaml#/Diary
+              $ref: '../../../components/schemas/diary.yaml#/Diary'
         example:
           status: 200
           message: 'Successfully updated diary!'
