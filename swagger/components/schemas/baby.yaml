@@ -1,32 +1,37 @@
-type: object
-properties:
-  _id:
-    type: string
-    example: 6895ce04a5c677999ed2af29
-  analogy:
-    type: string
-    example: Насінина кунжуту
-  weekNumber:
-    type: integer
-    example: 5
-  babySize:
-    type: number
-    example: 0.3
-  babyWeight:
-    type: number
-    example: 0.2
-  image:
-    type: string
-    format: uri
-    example: https://ftp.goit.study/img/lehlehka/6895ce04a5c677999ed2af29.webp
-  babyActivity:
-    type: string
-    example: Найголовніша подія тижня — починає битися крихітне серце!
-  babyDevelopment:
-    type: string
-  interestingFact:
-    type: string
-  momDailyTips:
-    type: array
-    items:
+Baby:
+  type: object
+  properties:
+    _id:
       type: string
+      example: 6895ce04a5c677999ed2af29
+    analogy:
+      type: string
+      example: Насінина кунжуту
+    weekNumber:
+      type: integer
+      example: 5
+    babySize:
+      type: number
+      example: 0.3
+    babyWeight:
+      type: number
+      example: 0.2
+    image:
+      type: string
+      format: uri
+      example: https://ftp.goit.study/img/lehlehka/6895ce04a5c677999ed2af29.webp
+    babyActivity:
+      type: string
+      example: Найголовніша подія тижня — починає битися крихітне серце!
+    babyDevelopment:
+      type: string
+    interestingFact:
+      type: string
+    momDailyTips:
+      type: array
+      items:
+        type: string
+
+ 
+
+

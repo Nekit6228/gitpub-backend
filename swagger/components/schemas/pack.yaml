@@ -1,9 +1,10 @@
-type: object
-properties:
-  week:
-    type: integer
-    example: 5
-  baby:
-    $ref: '../schemas/Baby.yaml'
-  mom:
-    $ref: '../schemas/Mom.yaml'
+Pack:
+  type: object
+  properties:
+    week:
+      type: integer
+      example: 5
+    baby:
+      $ref: './baby.yaml#/Baby'
+    mom:
+      $ref: './mom.yaml#/Mom'

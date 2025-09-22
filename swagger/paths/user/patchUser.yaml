@@ -8,7 +8,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: ../../components/schemas/user.yaml#/User
+        $ref: '../../components/schemas/user.yaml#/User'
 responses:
   '200':
     description: User updated successfully
