@@ -15,17 +15,37 @@ dotenv.config();
 const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const startServer = () => {
+
+
+
+
   const app = express();
+
+const corsOptions = {
+  origin: 'https://gitpub-frontend.vercel.app',
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
 
   app.use('/uploads', express.static(UPLOAD_DIR));
   app.use('/api-docs', swaggerDocs());
+
 
   app.use(
     express.json({
       type: ['application/json', 'application/vnd.api+json'],
     }),
   );
-  app.use(cors());
+
+  app.use(cors(corsOptions));
+
+
+  app.get('/api/test', (req, res) => {
+  res.json({ message: 'CORS работает!' });
+});
+
+
   app.use(cookieParser());
 
   app.use(
