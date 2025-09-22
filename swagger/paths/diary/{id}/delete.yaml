@@ -36,7 +36,7 @@ responses:
                 _id: 68cd804b54ecfa2d01635545
                 title: Moments with you
                 description: You are still so small, yet my whole life already revolves around you.
-                date: 2025-09-20T00:00:00.000Z
+                date: '2025-09-20'
                 emotions:
                   - 6895bd86a5c677999ed2ae17
                   - 6895bd86a5c677999ed2ae30

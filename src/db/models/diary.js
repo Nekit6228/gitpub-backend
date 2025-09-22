@@ -12,12 +12,13 @@ const diarySchema = new Schema ({
     },
 
     date: {
-        type: Date,
-        default: Date.now,
+        type: String,
+        match: /^\d{4}-\d{2}-\d{2}$/,
+        default: () => new Date().toISOString().split("T")[0],
     },
 
     emotions: [{
-        type: Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Emotions',
         required: true
     }],
