@@ -1,0 +1,38 @@
+tags:
+  - Users
+summary: Update user info
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: ../../components/schemas/user.yaml#/User
+responses:
+  '200':
+    description: User updated successfully
+    content:
+      application/json:
+        schema:
+          $ref: ../../components/schemas/user.yaml#/User
+  '400':
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: 'Invalid data'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: 'Unauthorized'

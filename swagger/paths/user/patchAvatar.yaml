@@ -1,0 +1,48 @@
+tags:
+  - Users
+summary: Update user avatar
+security:
+  - bearerAuth: []
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - avatar
+        properties:
+          avatar:
+            type: string
+            format: binary
+responses:
+  '200':
+    description: Avatar updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            avatar:
+              type: string
+              example: https://res.cloudinary.com/demo/image/upload/avatar.png
+  '400':
+    description: Avatar file required
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: 'Avatar file required'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: 'Unauthorized'
