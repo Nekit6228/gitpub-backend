@@ -24,10 +24,10 @@ servers:
 paths:
   /api/auth/register:
     post:
-      $ref: ../swagger/paths/auth/register.yaml
+      $ref: '../swagger/paths/auth/register.yaml'
   /api/auth/login:
     post:
-      $ref: ../swagger/paths/auth/login.yaml
+      $ref: '../swagger/paths/auth/login.yaml'
   /api/auth/logout:
     post:
       $ref: ../swagger/paths/auth/logout.yaml
