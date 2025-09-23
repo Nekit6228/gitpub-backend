@@ -32,10 +32,12 @@ export const loginUserController = async (req, res) => {
 
    res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
+      sameSite: 'none',
     expires: new Date(Date.now() + ONE_DAY),
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
+      sameSite: 'none',
     expires: new Date(Date.now() + ONE_DAY),
   });
 
@@ -77,4 +79,5 @@ export const refreshUserSessionController = async (req,res) => {
         }
     });
 };
+
 
