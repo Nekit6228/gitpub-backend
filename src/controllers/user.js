@@ -1,10 +1,26 @@
 import { SessionsCollection } from "../db/models/session.js";
 import { generateAccessToken } from "../utils/token.js";
 import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js"; // Додаємо Cloudinary утиліту
+import { UserCollections } from "../db/models/user.js";
 
 // Отримати поточного користувача
 export const getMe = async (req, res) => {
-  res.json(req.user);
+  try {
+    const userId = req.user?.id || req.session?.userId;
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    const user = await UserCollections.findById(userId).lean();
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({
+      ...user,
+    });
+  } catch (error) {
+    console.error('getMe error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 };
 
 // Оновити аватар через Cloudinary
