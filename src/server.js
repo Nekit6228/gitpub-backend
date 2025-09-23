@@ -16,7 +16,7 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const startServer = () => {
   const corsOptions = {
-  origin: 'https://gitpub-frontend.vercel.ap',
+  origin: 'https://gitpub-frontend.vercel.app',
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
