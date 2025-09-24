@@ -15,3 +15,4 @@ router.use('/diaries', diaryRouter);
 router.use('/emotions', emotionRouter);
 
 export default router;
+

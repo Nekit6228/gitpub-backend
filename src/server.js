@@ -16,7 +16,7 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const startServer = () => {
   const corsOptions = {
-  origin: ['https://gitpub-frontend.vercel.app/api', 'http://localhost:3000'],
+  origin: ['https://gitpub-frontend.vercel.app', 'http://localhost:300'],
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -33,7 +33,7 @@ export const startServer = () => {
       type: ['application/json', 'application/vnd.api+json'],
     }),
   );
-  app.use(cors(corsOptions));
+ app.use(cors(corsOptions));
   app.use(cookieParser());
 
   app.use(

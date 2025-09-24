@@ -24,3 +24,4 @@ router.get('/session', checkSessionController, (req, res) => {
 });
 
 export default router;
+
