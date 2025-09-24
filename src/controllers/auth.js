@@ -5,14 +5,12 @@ import { verifySession } from "../middlewares/verifySession.js";
 const setupSession = (res,session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
-    sameSite: 'None',
-    secure: true,
+    sameSite: 'none',
     expires: new Date(Date.now() + ONE_DAY),
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
-    sameSite: 'None',
-    secure: true,
+    sameSite: 'none',
     expires: new Date(Date.now() + ONE_DAY),
   });
 };
@@ -34,6 +32,7 @@ export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
 
   setupSession(res,session);
+
 
   res.json({
     status: 200,
