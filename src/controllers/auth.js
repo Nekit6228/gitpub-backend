@@ -8,6 +8,13 @@ import { ONE_DAY, ONE_HOUR } from '../constants/index.js';
 import { verifySession } from '../middlewares/verifySession.js';
 
 const setupSession = (res, session) => {
+  res.cookie('accessToken', session.accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+    expires: new Date(Date.now() + ONE_HOUR),
+  });
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: true,
@@ -21,13 +28,6 @@ const setupSession = (res, session) => {
     sameSite: 'none',
     path: '/',
     expires: new Date(Date.now() + ONE_DAY),
-  });
-  res.cookie('accessToken', session.accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    path: '/',
-    expires: new Date(Date.now() + ONE_HOUR),
   });
 };
 
