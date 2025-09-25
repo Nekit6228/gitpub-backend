@@ -2,6 +2,8 @@ tags:
   - Diaries
 summary: Delete diary
 operationId: deletedDiary
+security:
+  - bearerAuth: []
 description: Delete diary for the authenticated user.
 parameters:
   - in: path
@@ -44,8 +46,8 @@ responses:
                 createdAt: 2025-09-19T16:09:47.277Z
                 updatedAt: 2025-09-19T16:09:47.277Z
   '401':
-    $ref: ../../../components/responses/401.yaml                
+    $ref: ../../../components/responses/401.yaml
   '404':
-    $ref: ../../../components/responses/diary/404.yaml 
+    $ref: ../../../components/responses/diary/404.yaml
   '500':
-    $ref: ../../../components/responses/500.yaml                 
+    $ref: ../../../components/responses/500.yaml

@@ -2,6 +2,8 @@ tags:
   - Diaries
 summary: Update diary entry
 operationId: updateDiary
+security:
+  - bearerAuth: []
 description: Update a diary entry for the authenticated user.
 parameters:
   - in: path

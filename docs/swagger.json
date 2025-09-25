@@ -35,6 +35,10 @@
     {
       "name": "Weeks",
       "description": "Weeks operations"
+    },
+    {
+      "name": "Tasks",
+      "description": "Tasks operations"
     }
   ],
   "paths": {
@@ -300,7 +304,7 @@
       }
     },
     "/api/users/avatar": {
-      "post": {
+      "patch": {
         "tags": [
           "Users"
         ],
@@ -479,6 +483,11 @@
         ],
         "summary": "Create new diary entry",
         "operationId": "createDiary",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "description": "Creates a new diary entry for the authenticated user.",
         "requestBody": {
           "required": true,
@@ -542,6 +551,11 @@
         ],
         "summary": "Update diary entry",
         "operationId": "updateDiary",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "description": "Update a diary entry for the authenticated user.",
         "parameters": [
           {
@@ -631,6 +645,11 @@
         ],
         "summary": "Delete diary",
         "operationId": "deletedDiary",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "description": "Delete diary for the authenticated user.",
         "parameters": [
           {
@@ -963,6 +982,171 @@
           }
         }
       }
+    },
+    "/api/tasks": {
+      "get": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Get list of tasks",
+        "operationId": "listTasks",
+        "description": "Returns a paginated list of tasks for the authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "todo",
+                "in_progress",
+                "done"
+              ]
+            },
+            "description": "Filter tasks by status"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            },
+            "description": "Number of items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Create new task",
+        "operationId": "createTask",
+        "description": "Creates a new task for the authenticated user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskUpdate"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}/status": {
+      "patch": {
+        "tags": [
+          "Tasks"
+        ],
+        "summary": "Update task status",
+        "operationId": "updateTaskStatus",
+        "description": "Update the status of a specific task",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Task ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "todo",
+                      "in_progress",
+                      "done"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1210,6 +1394,85 @@
           },
           "mom": {
             "$ref": "#/components/schemas/Mom"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "required": [
+          "_id",
+          "owner",
+          "title",
+          "status"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "65123abcde9876543210ff00"
+          },
+          "owner": {
+            "type": "string",
+            "example": "65000aaabbbccc1112223333"
+          },
+          "title": {
+            "type": "string",
+            "example": "Fix login bug"
+          },
+          "description": {
+            "type": "string",
+            "example": "Login page throws error 500"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "todo",
+              "in_progress",
+              "done"
+            ],
+            "example": "in_progress"
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-30T12:00:00Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-01T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-09-10T12:00:00Z"
+          }
+        }
+      },
+      "TaskUpdate": {
+        "type": "object",
+        "required": [
+          "title"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Add dark mode toggle"
+          },
+          "description": {
+            "type": "string",
+            "example": "UI should have a toggle for dark mode"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "todo",
+              "in_progress",
+              "done"
+            ]
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }

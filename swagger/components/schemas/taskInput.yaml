@@ -1,0 +1,17 @@
+TaskUpdate:
+  type: object
+  required:
+    - title
+  properties:
+    title:
+      type: string
+      example: Add dark mode toggle
+    description:
+      type: string
+      example: UI should have a toggle for dark mode
+    status:
+      type: string
+      enum: [todo, in_progress, done]
+    dueDate:
+      type: string
+      format: date-time

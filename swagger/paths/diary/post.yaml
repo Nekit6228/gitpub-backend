@@ -2,6 +2,8 @@ tags:
   - Diaries
 summary: Create new diary entry
 operationId: createDiary
+security:
+  - bearerAuth: []
 description: Creates a new diary entry for the authenticated user.
 requestBody:
   required: true

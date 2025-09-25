@@ -1,0 +1,35 @@
+tags:
+  - Tasks
+summary: Update task status
+operationId: updateTaskStatus
+description: Update the status of a specific task
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+    description: Task ID
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          status:
+            type: string
+            enum: [todo, in_progress, done]
+responses:
+  '200':
+    description: Task updated
+    content:
+      application/json:
+        schema:
+          $ref: '../../../components/schemas/task.yaml#/Task'
+  '400':
+    description: Invalid ID
+  '401':
+    $ref: '../../../components/responses/401.yaml'

@@ -1,0 +1,36 @@
+Task:
+  type: object
+  required:
+    - _id
+    - owner
+    - title
+    - status
+  properties:
+    _id:
+      type: string
+      example: 65123abcde9876543210ff00
+    owner:
+      type: string
+      example: 65000aaabbbccc1112223333
+    title:
+      type: string
+      example: Fix login bug
+    description:
+      type: string
+      example: Login page throws error 500
+    status:
+      type: string
+      enum: [todo, in_progress, done]
+      example: in_progress
+    dueDate:
+      type: string
+      format: date-time
+      example: 2025-09-30T12:00:00Z
+    createdAt:
+      type: string
+      format: date-time
+      example: 2025-09-01T12:00:00Z
+    updatedAt:
+      type: string
+      format: date-time
+      example: 2025-09-10T12:00:00Z

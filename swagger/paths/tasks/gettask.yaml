@@ -1,0 +1,35 @@
+tags:
+  - Tasks
+summary: Get list of tasks
+operationId: listTasks
+description: Returns a paginated list of tasks for the authenticated user
+security:
+  - bearerAuth: []
+parameters:
+  - in: query
+    name: status
+    schema:
+      type: string
+      enum: [todo, in_progress, done]
+    description: Filter tasks by status
+  - in: query
+    name: page
+    schema:
+      type: integer
+      default: 1
+    description: Page number
+  - in: query
+    name: limit
+    schema:
+      type: integer
+      default: 20
+    description: Number of items per page
+responses:
+  '200':
+    description: OK
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/task.yaml#/Task'
+  '401':
+    $ref: ../../components/responses/401.yaml

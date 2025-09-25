@@ -15,7 +15,10 @@ tags:
   - name: Diaries
     description: Diary operations
   - name: Weeks
-    description: Weeks operations  
+    description: Weeks operations
+  - name: Tasks
+    description: Tasks operations
+
 
 servers:
   - url: https://gitpub-backend-qq3d.onrender.com
@@ -36,14 +39,14 @@ paths:
   /api/auth/refresh:
     post:
       $ref: ../swagger/paths/auth/refresh.yaml
-    
- # ======================== User ========================     
+
+ # ======================== User ========================
   /api/users/me:
     get:
       $ref: ../swagger/paths/user/getUser.yaml
   /api/users/avatar:
-    post:
-      $ref: ../swagger/paths/user/patchAvatar.yaml    
+    patch:
+      $ref: ../swagger/paths/user/patchAvatar.yaml
   /api/users:
     patch:
       $ref: ../swagger/paths/user/patchUser.yaml
@@ -82,6 +85,17 @@ paths:
   /api/weeks/{weekNumber}/baby:
     get:
       $ref: ../swagger/paths/weeks/{weekNumber}/baby.yaml
+# =========================== Tasks ==========================
+  /api/tasks:
+    get:
+      $ref: ../swagger/paths/tasks/getTask.yaml
+    post:
+      $ref: ../swagger/paths/tasks/postTask.yaml
+
+  /api/tasks/{id}/status:
+    patch:
+      $ref: ../swagger/paths/tasks/{id}/status.yaml
+
 
 components:
   securitySchemes:
@@ -97,7 +111,10 @@ components:
       $ref: ../swagger/components/schemas/diaryUpdate.yaml#/DiaryUpdate
     Baby:
       $ref: ../swagger/components/schemas/baby.yaml#/Baby
-    Mom:  
-      $ref: ../swagger/components/schemas/mom.yaml#/Mom 
-    Pack:   
+    Mom:
+      $ref: ../swagger/components/schemas/mom.yaml#/Mom
+    Pack:
       $ref: ../swagger/components/schemas/pack.yaml#/Pack
+    Task:
+      $ref: ../swagger/components/schemas/task.yaml#/Task
+
