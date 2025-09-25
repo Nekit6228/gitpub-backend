@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { authenticate } from '../middlewares/authenticate.js';
+// import { authenticate } from '../middlewares/authenticate.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
   getMeController,
@@ -12,7 +12,7 @@ import { upload } from '../middlewares/multer.js';
 
 const router = Router();
 
-router.use(authenticate);
+// router.use(authenticate);
 
 router.get('/me', ctrlWrapper(getMeController));
 router.post('/avatar', upload.single('avatar'), ctrlWrapper(updateAvatar));
