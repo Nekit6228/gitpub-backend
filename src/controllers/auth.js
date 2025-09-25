@@ -84,15 +84,12 @@ export const checkSessionController = async (req, res) => {
     if (!session || session.expired) {
       return res.status(401).json({ error: 'Session expired or invalid' });
     }
-    // Генеруємо новий accessToken
     const newAccessToken = session.generateAccessToken();
-    // Встановлюємо новий accessToken у cookie
     res.cookie('accessToken', newAccessToken, {
       path: '/',
-      maxAge: 60 * 60, // 1 година
+      maxAge: 60 * 60,
       sameSite: 'lax',
     });
-    // Повертаємо дані користувача (або просто статус)
     return res.status(200).json({
       message: 'Session is valid',
       user: session.user,
