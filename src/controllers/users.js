@@ -4,7 +4,7 @@ import { UserCollections } from '../db/models/user.js';
 import createHttpError from 'http-errors';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import { saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
-import { updateUser } from '../services/user.js';
+import { updateUser } from '../services/users.js';
 import { updateUserSchema } from '../validation/user.js';
 
 // Отримати поточного користувача
