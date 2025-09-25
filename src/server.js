@@ -17,9 +17,6 @@ const PORT = Number(getEnvVar('PORT', '4000'));
 export const startServer = () => {
   const app = express();
 
-  app.use('/uploads', express.static(UPLOAD_DIR));
-  app.use('/api-docs', swaggerDocs());
-
   app.use(
     express.json({
       type: ['application/json', 'application/vnd.api+json'],
@@ -28,6 +25,7 @@ export const startServer = () => {
   app.use(
     cors({
       origin: ['http://localhost:3000', 'https://gitpub-frontend.vercel.app'],
+      credentials: true,
     }),
   );
   app.use(cookieParser());
@@ -50,6 +48,9 @@ export const startServer = () => {
 
   app.use(notFoundHandler);
   app.use(errorHandler);
+
+  app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
 
   app.listen(PORT, () => {
     console.log(`port ${PORT}`);

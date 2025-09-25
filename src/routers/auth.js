@@ -3,7 +3,6 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { loginUserSchema, registerUserSchema } from '../validation/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
-  checkSessionController,
   loginUserController,
   logoutUserController,
   refreshUserSessionController,
@@ -28,11 +27,11 @@ router.post('/logout', ctrlWrapper(logoutUserController));
 
 router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
-router.get('/session', checkSessionController, (req, res) => {
-  res.status(200).json({
-    message: 'Сесія активна',
-    user: req.user,
-  });
-});
+// router.get('/session', checkSessionController, (req, res) => {
+//   res.status(200).json({
+//     message: 'Сесія активна',
+//     user: req.user,
+//   });
+// });
 
 export default router;
