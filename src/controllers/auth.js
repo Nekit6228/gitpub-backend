@@ -1,6 +1,5 @@
 import {  loginUser, logoutUser, refreshUsersSession, registerUser } from "../services/auth.js";
 import { ONE_DAY, ONE_HOUR } from "../constants/index.js";
-import { verifySession } from "../middlewares/verifySession.js";
 
 const setupSession = (res,session) => {
   res.cookie('refreshToken', session.refreshToken, {
@@ -16,10 +15,10 @@ const setupSession = (res,session) => {
     expires: new Date(Date.now() + ONE_DAY),
   });
    res.cookie('accessToken', session.accessToken, {
-    httpOnly: false, // Должно быть доступно клиенту
+    httpOnly: false, 
     sameSite: 'none',
     secure: true,
-    expires: new Date(Date.now() + ONE_HOUR), // Срок жизни access токена (например, 1 час)
+    expires: new Date(Date.now() + ONE_HOUR),
   });
 };
 
