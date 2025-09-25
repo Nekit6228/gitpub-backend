@@ -15,12 +15,10 @@ dotenv.config();
 const PORT = Number(getEnvVar('PORT', '3000'));
 
 export const startServer = () => {
-  const corsOptions = {
-  origin: ['https://gitpub-frontend.vercel.app', 'http://localhost:300'],
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-};
+  const allowedOrigins = [
+  'http://localhost:3000',
+  'https://myfrontend.com',
+];
 
 
   const app = express();
@@ -33,7 +31,20 @@ export const startServer = () => {
       type: ['application/json', 'application/vnd.api+json'],
     }),
   );
- app.use(cors(corsOptions));
+ app.use(
+  cors({
+    origin: function (origin, cb) {
+      if (!origin) { // дозволяємо запити без Origin (наприклад, Postman)
+        return cb(null, true);
+      }
+      if (allowedOrigins.includes(origin)) {
+        return cb(null, true);
+      }
+      return cb(new Error('Not allowed by CORS'), false);
+    },
+    credentials: true, // дозволяє кукіс
+  }),
+);
   app.use(cookieParser());
 
   app.use(

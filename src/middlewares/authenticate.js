@@ -3,17 +3,13 @@ import { SessionsCollection } from '../db/models/session.js';
 import { UserCollections } from '../db/models/user.js';
 
 export const authenticate = async (req, res, next) => {
-  const authHeader = req.get('Authorization');
 
-  if (!authHeader) {
-    return next(createHttpError(401, 'Please provide Authorization header'));
+  const token = req.cookies.accessToken;
+
+  if (!token) {
+    return next(createHttpError(401, 'Access token missing in cookies'));
   }
 
-  const [bearer, token] = authHeader.split(' ');
-
-  if (bearer !== 'Bearer' || !token) {
-    return next(createHttpError(401, 'Auth header should be of type Bearer'));
-  }
 
   const session = await SessionsCollection.findOne({ accessToken: token });
 
@@ -21,12 +17,14 @@ export const authenticate = async (req, res, next) => {
     return next(createHttpError(401, 'Session not found'));
   }
 
+
   const isAccessTokenExpired =
     new Date() > new Date(session.accessTokenValidUntil);
 
   if (isAccessTokenExpired) {
     return next(createHttpError(401, 'Access token expired'));
   }
+
 
   const user = await UserCollections.findById(session.userId);
 
