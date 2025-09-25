@@ -17,7 +17,7 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 export const startServer = () => {
   const allowedOrigins = [
   'http://localhost:3000',
-  'https://myfrontend.com',
+  'https://gitpub-frontend.vercel.app',
 ];
 
 
