@@ -104,9 +104,11 @@ export const checkSessionController = async (req, res) => {
 
     // Встановлюємо новий accessToken у cookie
     res.cookie('accessToken', newAccessToken, {
-      path: '/',
-      maxAge: 60 * 60, // 1 година
+      httpOnly: true,
+      secure: true,
       sameSite: 'none',
+      path: '/',
+      expires: new Date(Date.now() + ONE_DAY),
     });
     return res.status(200).json({
       message: 'Session is valid',

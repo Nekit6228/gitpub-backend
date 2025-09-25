@@ -2,7 +2,7 @@ import { Router } from 'express';
 import authRouter from './auth.js';
 import diaryRouter from './diary.js';
 import emotionRouter from './emotions.js';
-import usersRouter from './user.js';
+import usersRouter from './users.js';
 import weeksRouter from './weeks.js';
 import tasksRouter from './task.js';
 
