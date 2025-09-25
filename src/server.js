@@ -12,15 +12,9 @@ import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 dotenv.config();
 
-const PORT = Number(getEnvVar('PORT', '3000'));
+const PORT = Number(getEnvVar('PORT', '4000'));
 
 export const startServer = () => {
-  const allowedOrigins = [
-  'http://localhost:3000',
-  'https://gitpub-frontend.vercel.app',
-];
-
-
   const app = express();
 
   app.use('/uploads', express.static(UPLOAD_DIR));
@@ -31,20 +25,11 @@ export const startServer = () => {
       type: ['application/json', 'application/vnd.api+json'],
     }),
   );
- app.use(
-  cors({
-    origin: function (origin, cb) {
-      if (!origin) { // дозволяємо запити без Origin (наприклад, Postman)
-        return cb(null, true);
-      }
-      if (allowedOrigins.includes(origin)) {
-        return cb(null, true);
-      }
-      return cb(new Error('Not allowed by CORS'), false);
-    },
-    credentials: true, // дозволяє кукіс
-  }),
-);
+  app.use(
+    cors({
+      origin: ['http://localhost:3000', 'https://gitpub-frontend.vercel.app'],
+    }),
+  );
   app.use(cookieParser());
 
   app.use(
@@ -61,7 +46,7 @@ export const startServer = () => {
     });
   });
 
-  app.use('/api', router);
+  app.use(router);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
