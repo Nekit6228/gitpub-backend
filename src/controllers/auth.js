@@ -4,7 +4,6 @@ import {
   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
-import { ONE_DAY, ONE_HOUR } from '../constants/index.js';
 import { verifySession } from '../middlewares/verifySession.js';
 
 const setupSession = (res, session) => {
@@ -13,21 +12,21 @@ const setupSession = (res, session) => {
     secure: true,
     sameSite: 'none',
     path: '/',
-    expires: new Date(Date.now() + ONE_HOUR),
+    maxAge: 60 * 60, // 15 хвилин
   });
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
     path: '/',
-    expires: new Date(Date.now() + ONE_DAY),
+    maxAge: 60 * 60 * 24, // 1 день
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
     path: '/',
-    expires: new Date(Date.now() + ONE_DAY),
+    maxAge: 60 * 60 * 24,
   });
 };
 
@@ -104,11 +103,9 @@ export const checkSessionController = async (req, res) => {
 
     // Встановлюємо новий accessToken у cookie
     res.cookie('accessToken', newAccessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
       path: '/',
-      expires: new Date(Date.now() + ONE_DAY),
+      maxAge: 60 * 60, // 1 година
+      sameSite: 'none',
     });
     return res.status(200).json({
       message: 'Session is valid',
