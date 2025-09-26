@@ -6,16 +6,30 @@ import { randomBytes } from 'crypto';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
 
 export const registerUser = async (payload) => {
-  const user = await UserCollections.findOne({ email: payload.email });
+  const existingUser = await UserCollections.findOne({ email: payload.email });
+  if (existingUser) throw createHttpError(409, 'Email in use');
 
-  if (user) throw createHttpError(409, 'Email in use');
+  const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
-  const enxryptedPassord = await bcrypt.hash(payload.password, 10);
-
-  return await UserCollections.create({
+  const user = await UserCollections.create({
     ...payload,
-    password: enxryptedPassord,
+    password: encryptedPassword,
   });
+
+  await SessionsCollection.deleteOne({ userId: user._id });
+
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+
+  const session = await SessionsCollection.create({
+    userId: user._id,
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+  });
+
+  return { user, session };
 };
 
 export const loginUser = async (payload) => {

@@ -1,39 +1,30 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
-import { authenticate } from '../middlewares/authenticate.js';
-import { getUserDiaryController,
-         createDiaryController,
-         updateDiaryController,
-         deleteDiaryController
+import {
+  getUserDiaryController,
+  createDiaryController,
+  updateDiaryController,
+  deleteDiaryController,
 } from '../controllers/diary.js';
 import { createDiarySchema, updateDiarySchema } from '../validation/diary.js';
 import { validateBody } from '../middlewares/validateBody.js';
 
 const router = Router();
 
+router.get('/', ctrlWrapper(getUserDiaryController));
 
-router.get('/',
-           authenticate,
-           ctrlWrapper(getUserDiaryController)
+router.post(
+  '/',
+  validateBody(createDiarySchema),
+  ctrlWrapper(createDiaryController),
 );
 
-router.post('/',
-            authenticate,
-            validateBody(createDiarySchema),
-            ctrlWrapper(createDiaryController)
+router.patch(
+  '/:id',
+  validateBody(updateDiarySchema),
+  ctrlWrapper(updateDiaryController),
 );
 
-router.patch('/:id',
-             authenticate,
-             validateBody(updateDiarySchema),
-             ctrlWrapper(updateDiaryController)
-
-);
-
-router.delete('/:id',
-               authenticate,
-               ctrlWrapper(deleteDiaryController)
-);
+router.delete('/:id', ctrlWrapper(deleteDiaryController));
 
 export default router;
-
