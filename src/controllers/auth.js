@@ -12,21 +12,21 @@ const setupSession = (res, session) => {
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 60 * 60, // 15 хвилин
+    maxAge: 15 * 60 * 1000, // 15 хвилин у мілісекундах курва
   });
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 60 * 60 * 24, // 1 день
+    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 днів у мілісекундах курва
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 60 * 60 * 24,
+    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 днів у мілісекундах курва
   });
 };
 
