@@ -4,9 +4,12 @@ import {
   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
+
 import { verifySession } from '../middlewares/verifySession.js';
 import { generateAuthUrl } from '../utils/googleOAuth2.js';
 import { loginOrSignupWithGoogle } from '../services/auth.js';
+
+// import { verifySession } from '../middlewares/verifySession.js';
 
 const setupSession = (res, session) => {
   res.cookie('accessToken', session.accessToken, {
@@ -14,7 +17,7 @@ const setupSession = (res, session) => {
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 15 * 60 * 1000, // 15 хвилин у мілісекундах курва
+    maxAge: 60 * 60 * 1000, // 15 хвилин у мілісекундах курва
   });
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,

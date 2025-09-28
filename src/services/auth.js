@@ -8,6 +8,19 @@ import {
   getFullNameFromGoogleTokenPayload,
   validateCode,
 } from '../utils/googleOAuth2.js';
+import { ONE_DAY, TWO_HOUR } from '../constants/index.js';
+
+const createSession = () => {
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+
+  return {
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + TWO_HOUR),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+  };
+};
 
 export const registerUser = async (payload) => {
   const existingUser = await UserCollections.findOne({ email: payload.email });
@@ -29,7 +42,7 @@ export const registerUser = async (payload) => {
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    accessTokenValidUntil: new Date(Date.now() + TWO_HOUR),
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
 
@@ -58,25 +71,13 @@ export const loginUser = async (payload) => {
     userId: user._id,
     accessToken,
     refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
+    accessTokenValidUntil: new Date(Date.now() + TWO_HOUR),
     refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
 };
 
 export const logoutUser = async (sessionId) => {
   await SessionsCollection.deleteOne({ _id: sessionId });
-};
-
-const createSession = () => {
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
-
-  return {
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + FIFTEEN_MINUTES),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
-  };
 };
 
 export const refreshUsersSession = async ({ sessionId, refreshToken }) => {

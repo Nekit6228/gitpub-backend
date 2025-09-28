@@ -3,10 +3,10 @@ import { validateBody } from '../middlewares/validateBody.js';
 import { loginUserSchema, registerUserSchema } from '../validation/auth.js';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
-  checkSessionController,
+  // checkSessionController,
   loginUserController,
   logoutUserController,
-  refreshUserSessionController,
+  // refreshUserSessionController,
   registerUserController,
 } from '../controllers/auth.js';
 
@@ -30,14 +30,14 @@ router.post(
 
 router.post('/logout', ctrlWrapper(logoutUserController));
 
-router.post('/refresh', ctrlWrapper(refreshUserSessionController));
+// router.post('/refresh', ctrlWrapper(refreshUserSessionController));
 
-router.get('/session', checkSessionController, (req, res) => {
-  res.status(200).json({
-    message: 'Сесія активна',
-    user: req.user,
-  });
-});
+// router.get('/session', checkSessionController, (req, res) => {
+//   res.status(200).json({
+//     message: 'Сесія активна',
+//     user: req.user,
+//   });
+// });
 
 router.get('/get-oauth-url', ctrlWrapper(getGoogleOAuthUrlController));
 

@@ -22,6 +22,7 @@ export const startServer = () => {
       type: ['application/json', 'application/vnd.api+json'],
     }),
   );
+
   app.use(
     cors({
       origin: ['http://localhost:3000', 'https://gitpub-frontend.vercel.app'],
