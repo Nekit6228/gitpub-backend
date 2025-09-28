@@ -12,21 +12,21 @@ const setupSession = (res, session) => {
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 1800, // 30 хв
+    maxAge: 60 * 60 * 1000, // 15 хвилин у мілісекундах курва
   });
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 60 * 60 * 24, // 1 день
+    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 днів у мілісекундах курва
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 60 * 60 * 24,
+    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 днів у мілісекундах курва
   });
 };
 
@@ -95,59 +95,3 @@ export const refreshUserSessionController = async (req, res) => {
     },
   });
 };
-
-// export const checkSessionController = async (req, res) => {
-//   try {
-//     const { refreshToken, sessionId } = req.cookies;
-//     if (!refreshToken || !sessionId) {
-//       return res.status(401).json({ error: 'Missing session credentials' });
-//     }
-//     const session = await verifySession(refreshToken, sessionId);
-
-//     if (!session || session.expired) {
-//       return res.status(401).json({ error: 'Session expired or invalid' });
-//     }
-//     const newAccessToken = session.generateAccessToken();
-
-//     // Встановлюємо новий accessToken у cookie
-//     res.cookie('accessToken', newAccessToken, {
-//       httpOnly: true,
-//       secure: true,
-//       sameSite: 'none',
-//       path: '/',
-//       maxAge: 30 * 60, // 15 хвилин
-//     });
-//     return res.status(200).json({
-//       message: 'Session is valid',
-//       user: session.user,
-//     });
-//   } catch (err) {
-//     console.error('Session check error:', err);
-//     return res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
-// export const checkSessionController = async (req, res) => {
-//   try {
-//     const { refreshToken, sessionId } = req.cookies;
-//     if (!refreshToken || !sessionId) {
-//       return res.status(401).json({ error: 'Missing session credentials' });
-//     }
-
-//     const session = await verifySession(refreshToken, sessionId);
-//     if (!session || session.expired) {
-//       return res.status(401).json({ error: 'Session expired or invalid' });
-//     }
-
-//     const newAccessToken = session.generateAccessToken();
-//     setupSession(res, { accessToken: newAccessToken, user: session.user });
-
-//     return res.status(200).json({
-//       message: 'Session is valid',
-//       user: session.user,
-//     });
-//   } catch (err) {
-//     console.error('Session check error:', err);
-//     return res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
