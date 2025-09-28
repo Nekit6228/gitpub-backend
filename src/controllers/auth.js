@@ -5,6 +5,8 @@ import {
   registerUser,
 } from '../services/auth.js';
 import { verifySession } from '../middlewares/verifySession.js';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
+import { loginOrSignupWithGoogle } from '../services/auth.js';
 
 const setupSession = (res, session) => {
   res.cookie('accessToken', session.accessToken, {
@@ -150,4 +152,28 @@ export const checkSessionController = async (req, res) => {
     console.error('Session check error:', err);
     return res.status(500).json({ error: 'Internal server error' });
   }
+};
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      url,
+    },
+  });
+};
+
+export const loginWithGoogleController = async (req, res) => {
+  const session = await loginOrSignupWithGoogle(req.body.code);
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: 'Successfully logged in Google OAuth!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
 };

@@ -4,6 +4,10 @@ import bcrypt from 'bcrypt';
 import { SessionsCollection } from '../db/models/session.js';
 import { randomBytes } from 'crypto';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/index.js';
+import {
+  getFullNameFromGoogleTokenPayload,
+  validateCode,
+} from '../utils/googleOAuth2.js';
 
 export const registerUser = async (payload) => {
   const existingUser = await UserCollections.findOne({ email: payload.email });
@@ -98,6 +102,29 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
 
   return await SessionsCollection.create({
     userId: session.userId,
+    ...newSession,
+  });
+};
+
+export const loginOrSignupWithGoogle = async (code) => {
+  const loginTicket = await validateCode(code);
+  const payload = loginTicket.getPayload();
+  if (!payload) throw createHttpError(401);
+
+  let user = await UserCollections.findOne({ email: payload.email });
+  if (!user) {
+    const password = await bcrypt.hash(randomBytes(10), 10);
+    user = await UserCollections.create({
+      email: payload.email,
+      name: getFullNameFromGoogleTokenPayload(payload),
+      password,
+    });
+  }
+
+  const newSession = createSession();
+
+  return await SessionsCollection.create({
+    userId: user._id,
     ...newSession,
   });
 };
