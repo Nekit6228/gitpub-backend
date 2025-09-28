@@ -4,7 +4,7 @@ import {
   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
-import { verifySession } from '../middlewares/verifySession.js';
+// import { verifySession } from '../middlewares/verifySession.js';
 
 const setupSession = (res, session) => {
   res.cookie('accessToken', session.accessToken, {
@@ -12,7 +12,7 @@ const setupSession = (res, session) => {
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 60 * 60, // 15 хвилин
+    maxAge: 1800, // 30 хв
   });
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
@@ -127,27 +127,27 @@ export const refreshUserSessionController = async (req, res) => {
 //   }
 // };
 
-export const checkSessionController = async (req, res) => {
-  try {
-    const { refreshToken, sessionId } = req.cookies;
-    if (!refreshToken || !sessionId) {
-      return res.status(401).json({ error: 'Missing session credentials' });
-    }
+// export const checkSessionController = async (req, res) => {
+//   try {
+//     const { refreshToken, sessionId } = req.cookies;
+//     if (!refreshToken || !sessionId) {
+//       return res.status(401).json({ error: 'Missing session credentials' });
+//     }
 
-    const session = await verifySession(refreshToken, sessionId);
-    if (!session || session.expired) {
-      return res.status(401).json({ error: 'Session expired or invalid' });
-    }
+//     const session = await verifySession(refreshToken, sessionId);
+//     if (!session || session.expired) {
+//       return res.status(401).json({ error: 'Session expired or invalid' });
+//     }
 
-    const newAccessToken = session.generateAccessToken();
-    setupSession(res, { accessToken: newAccessToken, user: session.user });
+//     const newAccessToken = session.generateAccessToken();
+//     setupSession(res, { accessToken: newAccessToken, user: session.user });
 
-    return res.status(200).json({
-      message: 'Session is valid',
-      user: session.user,
-    });
-  } catch (err) {
-    console.error('Session check error:', err);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-};
+//     return res.status(200).json({
+//       message: 'Session is valid',
+//       user: session.user,
+//     });
+//   } catch (err) {
+//     console.error('Session check error:', err);
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
