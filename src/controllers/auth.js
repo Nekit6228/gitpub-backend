@@ -51,20 +51,22 @@ export const registerUserController = async (req, res, next) => {
   }
 };
 
-export const loginUserController = async (req, res) => {
-  const session = await loginUser(req.body);
-
-  setupSession(res, session);
-
-  res.json({
-    status: 200,
-    message: 'Successfully logged in an user!',
-    data: {
-      accessToken: session.accessToken,
-      refreshToken: session.refreshToken,
-      sessionId: session.userId,
-    },
-  });
+export const loginUserController = async (req, res, next) => {
+  try {
+    const session = await loginUser(req.body);
+    setupSession(res, session);
+    res.json({
+      status: 200,
+      message: 'Successfully logged in!',
+      data: {
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
+        sessionId: session.userId,
+      },
+    });
+  } catch (error) {
+    next(error); // передаємо до глобального error handler
+  }
 };
 
 export const logoutUserController = async (req, res) => {

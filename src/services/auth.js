@@ -19,7 +19,7 @@ const createSession = () => {
 
 export const registerUser = async (payload) => {
   const existingUser = await UserCollections.findOne({ email: payload.email });
-  if (existingUser) throw createHttpError(409, 'Email in use');
+  if (existingUser) throw createHttpError(409, 'Емейл використовується');
 
   const encryptedPassword = await bcrypt.hash(payload.password, 10);
 
@@ -48,13 +48,13 @@ export const loginUser = async (payload) => {
   const user = await UserCollections.findOne({ email: payload.email });
 
   if (!user) {
-    throw createHttpError(401, 'User not Found');
+    throw createHttpError(401, 'Користувача не знайдено');
   }
 
   const isEqual = await bcrypt.compare(payload.password, user.password);
 
   if (!isEqual) {
-    throw createHttpError(401, 'Incorrect password');
+    throw createHttpError(401, 'Невірний пароль');
   }
 
   await SessionsCollection.deleteOne({ userId: user._id });
