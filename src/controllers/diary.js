@@ -62,8 +62,8 @@ export const createDiaryController = async (req, res, next) => {
 export const updateDiaryController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { _id: userId } = req.user;
-    const updatedDiary = await updateDiaryService(id, userId, req.body);
+    const sessionId = req.cookies?.sessionId;
+    const updatedDiary = await updateDiaryService(id, sessionId, req.body);
     const updateData = req.body;
 
     if (!updateData || Object.keys(updateData).length === 0) {
